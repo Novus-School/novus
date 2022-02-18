@@ -1,16 +1,15 @@
 (ns cheffy.recipe.routes
   (:require [cheffy.recipe.handlers :as recipe]
             [cheffy.recipe.ingredient.handlers :as ingredient]
-            [cheffy.recipe.ingredient.step.handlers :as step]
+            [cheffy.recipe.step.handlers :as step]
             [cheffy.responses :as responses]
-            [cheffy.middleware :as mw]
-            [camel-snake-kebab.core]))
+            [cheffy.middleware :as mw]))
 
 (def routes
   ["/recipes" {:swagger {:tags ["recipes"]}
                :middleware [[mw/wrap-auth0]]}
    [""
-    {:get {:handler recipe/list
+    {:get {:handler recipe/browse
            :responses {200 {:body any?}}
            :summary "List all recipes"}
      :post {:handler recipe/create!
@@ -64,7 +63,7 @@
                           :body {:ingredient-id string? :name string? :sort int? :amount int? :measure string?}}
              :responses {204 {:body nil?}}
              :summary "Update ingredient"}
-       :delete {:handler incredient/delete!
+       :delete {:handler ingredient/delete!
                 :parameters {:path {:recipe-id string?}
                              :body {:ingredient-id string?}}
                 :responses {204 {:body nil?}}

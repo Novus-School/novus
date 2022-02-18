@@ -4,7 +4,7 @@
             [ring.util.response :as rr])
   (:import (java.util UUID)))
 
-(defn list
+(defn browse
   [{:keys [env claims] :as _request}]
   (let [account-id (:sub claims)]))
     ;; FIXME: recipe-db/find-all-recipes

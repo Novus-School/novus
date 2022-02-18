@@ -14,3 +14,7 @@
 
 (def app (-> state/system :cheffy/app))
 (def db (-> state/system :db/postgres))
+
+(comment
+  (start-dev)
+  (stop-dev))
