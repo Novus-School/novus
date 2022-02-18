@@ -1,8 +1,7 @@
-![alt learn-datomic-logo](https://res.cloudinary.com/schae/image/upload/f_auto,q_80,r_12/v1625037435/learndatomic.com/1200x640.png)
+# Learn Datomic Cloud - Notes
 
-# [LearnDatomic.com](https://www.learndatomic.com)
 
-Video course about Datomic Cloud. Including Datomic dev-local, Datomic Ions, and AWS deployment.
+Notes on Datomic Cloud. Including Datomic dev-local, Datomic Ions, and AWS deployment.
 
 ## Course files
 
@@ -11,17 +10,44 @@ The code in this repo includes two folders - `increments` - code for the start o
 ### Clone
 
 ```shell
-$ git clone git@github.com:jacekschae/learn-datomic-course-files.git
+$ git clone https://github.com/learnuidev/learn-datomic-notes.git
 
-$ cd learn-datomic-course-files/increments/<step-you-want-to-check-out>
+$ cd learn-datomic-notes/cheffy
 ```
 
-### Run REPL
+### Run Socket REPL + Dev + Test
 
 Probably you will run your REPL from your editor, and thre is nothing stopping you to run it from the command line:
 
 ```shell
-clj
+clj -A:socket-repl:dev:test
+```
+
+This will start socket REPL in port 50505. If you wish to run REPL from the editor, you will need to use this PORT number
+
+Once connected to repl. You can go to `src/dev/user.clj` and start and stop the service programatically
+```clj
+(ns user
+  (:require [integrant.repl :as ig-repl]
+            [integrant.core :as ig]
+            [integrant.repl.state :as state]
+            [cheffy.server]))
+
+(ig-repl/set-prep!
+  (fn [] (-> "src/dev/resources/config.edn" slurp ig/read-string)))
+
+(def start-dev ig-repl/go)
+(def stop-dev ig-repl/halt)
+(def restart-dev ig-repl/reset)
+(def reset-all ig-repl/reset-all)
+
+(def app (-> state/system :cheffy/app))
+(def db (-> state/system :db/postgres))
+
+(comment
+  (start-dev)
+  (stop-dev))
+
 ```
 
 ### Run the app
@@ -30,7 +56,3 @@ Probably you will run your REPL from your editor, and thre is nothing stopping y
 ```shell
 clj -M:dev src/main/cheffy/server.clj
 ```
-
-## License
-
-Copyright © 2021 Jacek Schae
