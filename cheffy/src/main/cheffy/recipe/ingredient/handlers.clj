@@ -1,4 +1,4 @@
-(ns cheffy.recipe.step.handlers
+(ns cheffy.recipe.ingredient.handlers
   (:require [cheffy.recipe.db :as recipe-db]
             [cheffy.responses :as responses]
             [ring.util.response :as rr])
@@ -8,19 +8,19 @@
 (defn create!
   [{:keys [env parameters] :as _request}]
   (let [recipe-id (-> parameters :path :recipe-id)
-        step (:body parameters)
-        step-id (str (UUID/randomUUID))]))
-    ;; FIXME: recipe-db/transact-step
+        ingredient (:body parameters)
+        ingredient-id (str (UUID/randomUUID))]))
+    ;; FIXME: recipe-db/transact-ingredient
 
 
 (defn update!
   [{:keys [env parameters] :as _request}]
-  (let [step (:body parameters)
+  (let [ingredient (:body parameters)
         recipe-id (-> parameters :path :recipe-id)]))
-    ;; FIXME: recipe-db/transact-step
+    ;; FIXME: recipe-db/transact-ingredient
 
 
 (defn delete!
   [{:keys [env parameters] :as _request}]
-  (let [step (:body parameters)]))
-    ;; FIXME: recipe-db/retract-step
+  (let [ingredient (:body parameters)]))
+    ;; FIXME: recipe-db/retract-ingredient
