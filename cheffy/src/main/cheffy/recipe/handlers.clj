@@ -18,7 +18,7 @@
     ;; FIXME: recipe-db/transact-recipe
 
 
-(defn retrieve
+(defn fetch
   [{:keys [env parameters] :as _request}]
   (let [recipe-id (-> parameters :path :recipe-id)
         ;; FIXME: recipe-db/find-recipe-by-id
@@ -43,57 +43,13 @@
   (let [recipe-id (-> parameters :path)]))
     ;; FIXME: recipe-db/retract-recipe
 
-
-(defn create-step!
-  [{:keys [env parameters] :as _request}]
-  (let [recipe-id (-> parameters :path :recipe-id)
-        step (:body parameters)
-        step-id (str (UUID/randomUUID))]))
-    ;; FIXME: recipe-db/transact-step
-
-
-(defn update-step!
-  [{:keys [env parameters] :as _request}]
-  (let [step (:body parameters)
-        recipe-id (-> parameters :path :recipe-id)]))
-    ;; FIXME: recipe-db/transact-step
-
-
-(defn delete-step!
-  [{:keys [env parameters] :as _request}]
-  (let [step (:body parameters)]))
-    ;; FIXME: recipe-db/retract-step
-
-
-(defn create-ingredient!
-  [{:keys [env parameters] :as _request}]
-  (let [recipe-id (-> parameters :path :recipe-id)
-        ingredient (:body parameters)
-        ingredient-id (str (UUID/randomUUID))]))
-    ;; FIXME: recipe-db/transact-ingredient
-
-
-(defn update-ingredient!
-  [{:keys [env parameters] :as _request}]
-  (let [ingredient (:body parameters)
-        recipe-id (-> parameters :path :recipe-id)]))
-    ;; FIXME: recipe-db/transact-ingredient
-
-
-(defn delete-ingredient!
-  [{:keys [env parameters] :as _request}]
-  (let [ingredient (:body parameters)]))
-    ;; FIXME: recipe-db/retract-ingredient
-
-
-(defn favorite-recipe!
+(defn favorite!
   [{:keys [env claims parameters] :as _request}]
   (let [account-id (:sub claims)
         recipe-id (-> parameters :path :recipe-id)]))
     ;; FIXME: recipe-db/favorite-recipe
 
-
-(defn unfavorite-recipe!
+(defn unfavorite!
   [{:keys [env claims parameters] :as _request}]
   (let [account-id (:sub claims)
         recipe-id (-> parameters :path :recipe-id)]))

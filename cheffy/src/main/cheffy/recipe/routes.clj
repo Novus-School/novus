@@ -1,5 +1,7 @@
 (ns cheffy.recipe.routes
   (:require [cheffy.recipe.handlers :as recipe]
+            [cheffy.recipe.ingredient.handlers :as ingredient]
+            [cheffy.recipe.ingredient.step.handlers :as step]
             [cheffy.responses :as responses]
             [cheffy.middleware :as mw]
             [camel-snake-kebab.core]))
@@ -8,71 +10,71 @@
   ["/recipes" {:swagger {:tags ["recipes"]}
                :middleware [[mw/wrap-auth0]]}
    [""
-    {:get {:handler recipe/list-all-recipes
+    {:get {:handler recipe/list
            :responses {200 {:body any?}}
            :summary "List all recipes"}
-     :post {:handler recipe/create-recipe!
+     :post {:handler recipe/create!
             :middleware [[mw/wrap-manage-recipes]]
             :parameters {:body {:name string? :prep-time number? :img string?}}
             :responses {201 {:body {:recipe-id string?}}}
             :summary "Create recipe"}}]
    ["/:recipe-id"
     [""
-     {:get {:handler recipe/retrieve-recipe
+     {:get {:handler recipe/fetch
             :parameters {:path {:recipe-id string?}}
             :responses {200 {:body any?}}
             :summary "Retrieve recipe"}
-      :put {:handler recipe/update-recipe!
+      :put {:handler recipe/update!
             :middleware [[mw/wrap-recipe-owner] [mw/wrap-manage-recipes]]
             :parameters {:path {:recipe-id string?}
                          :body {:name string? :prep-time number? :public boolean? :img string?}}
             :responses {204 {:body nil?}}
             :summary "Update recipe"}
-      :delete {:handler recipe/delete-recipe!
+      :delete {:handler recipe/delete!
                :middleware [[mw/wrap-recipe-owner] [mw/wrap-manage-recipes]]
                :parameters {:path {:recipe-id string?}}
                :responses {204 {:body nil?}}
                :summary "Delete recipe"}}]
     ["/steps" {:middleware [[mw/wrap-recipe-owner] [mw/wrap-manage-recipes]]}
      [""
-      {:post {:handler recipe/create-step!
+      {:post {:handler step/create!
               :parameters {:path {:recipe-id string?}
                            :body {:description string? :sort number?}}
               :responses {201 {:body {:step-id string?}}}
               :summary "Create step"}
-       :put {:handler recipe/update-step!
+       :put {:handler step/update!
              :parameters {:path {:recipe-id string?}
                           :body {:step-id string? :description string? :sort int?}}
              :responses {204 {:body nil?}}
              :summary "Update step"}
-       :delete {:handler recipe/delete-step!
+       :delete {:handler step/delete!
                 :parameters {:path {:recipe-id string?}
                              :body {:step-id string?}}
                 :responses {204 {:body nil?}}
                 :summary "Delete step"}}]]
     ["/ingredients" {:middleware [[mw/wrap-recipe-owner] [mw/wrap-manage-recipes]]}
      [""
-      {:post {:handler recipe/create-ingredient!
+      {:post {:handler ingredient/create!
               :parameters {:path {:recipe-id string?}
                            :body {:name string? :sort int? :amount int? :measure string?}}
               :responses {201 {:body {:ingredient-id string?}}}
               :summary "Create ingredient"}
-       :put {:handler recipe/update-ingredient!
+       :put {:handler ingredient/update!
              :parameters {:path {:recipe-id string?}
                           :body {:ingredient-id string? :name string? :sort int? :amount int? :measure string?}}
              :responses {204 {:body nil?}}
              :summary "Update ingredient"}
-       :delete {:handler recipe/delete-ingredient!
+       :delete {:handler incredient/delete!
                 :parameters {:path {:recipe-id string?}
                              :body {:ingredient-id string?}}
                 :responses {204 {:body nil?}}
                 :summary "Delete ingredient"}}]]
     ["/favorite"
-     {:post {:handler recipe/favorite-recipe!
+     {:post {:handler recipe/favorite!
              :parameters {:path {:recipe-id string?}}
              :responses {204 {:body nil?}}
              :summary "Favorite recipe"}
-      :delete {:handler recipe/unfavorite-recipe!
+      :delete {:handler recipe/unfavorite!
                :parameters {:path {:recipe-id string?}}
                :responses {204 {:body nil?}}
                :summary "Unfavorite recipe"}}]]])
