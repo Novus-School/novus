@@ -1,17 +1,29 @@
-(ns cheffy.samples.solar-system
-  (:require [datomic.client.api :as d]))
+(ns cheffy.samples.solar-system-pro
+  (:require [datomic.client.api :as d]
+            [datomic.dev-local :as dl]))
 
 ;; Step 1: Create a client for the Datomic System) using the d/client function
-(def client (d/client {:server-type :dev-local
-                       :system "datomic-samples"}))
+(def client-config {:server-type :dev-local
+                    :system "custom"})
+
+(def client (d/client client-config))
+
+(defonce db-name {:db-name "solar-system-pro"})
+
+;; Step 1.1 Create a new database
+(d/create-database client db-name)
 ;; Aside
 (def dbs (d/list-databases client {}))
 
 
-
+;; Aside - Delete
+(comment
+  ; (d/delete-database client  {:db-name "solar-system-pro"})
+  (dl/release-db  {:db-name "solar-system-pro"
+                   :system "custom"}))
 ;; Step 2: Connect to a database. Connect function returns a database connection
 ;; This will be used to communicate with database when making transactions and queries
-(def conn (d/connect client {:db-name "solar-system"}))
+(def conn (d/connect client db-name))
 
 ;; Aside: Play around
 (comment
@@ -22,8 +34,9 @@
   (d/q '[:find [(pull ?d [*]) ...]
          :where [?d :db/ident]]
     (d/db conn)))
-;; Looks like nothing exists yet lets add some data
-;; https://github.com/cognitect-labs/day-of-datomic-cloud/blob/master/datasets/solar-system.repl
+
+
+;; https://github.com/zperezedgar/SQL-Queries-in-a-solar-system-database/blob/master/queries%20in%20a%20solar%20system%20database.sql
 ;; Step 3 - Define solar system schema
 (def schema
   [{:db/ident :object/name
@@ -33,6 +46,50 @@
    {:db/ident :object/meanRadius
     :db/doc "Mean radius of an object."
     :db/valueType :db.type/double
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :object/meanRadiusRel
+    :db/doc "Mean radius of an object relative to earth."
+    :db/valueType :db.type/double
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :object/volume
+    :db/doc "Volume of an object"
+    :db/valueType :db.type/double
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :object/volumeRel
+    :db/doc "Volume of an object relative to earth"
+    :db/valueType :db.type/double
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :object/mass
+    :db/doc "Volume of an object"
+    :db/valueType :db.type/double
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :object/massRel
+    :db/doc "Volume of an object relative to earth"
+    :db/valueType :db.type/double
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :object/density
+    :db/doc "Density of an object"
+    :db/valueType :db.type/double
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :object/surfaceGravity
+    :db/doc "Gravity of an object"
+    :db/valueType :db.type/double
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :object/surfaceGravityRel
+    :db/doc "Gravity of an object relative to earth"
+    :db/valueType :db.type/double
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :object/type
+    :db/doc "Type of an object"
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :object/shape
+    :db/doc "Type of an object"
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :object/parent
+    :db/doc "Parent of an object"
+    :db/valueType :db.type/ref
     :db/cardinality :db.cardinality/one}
    {:db/ident :data/source
     :db/doc "Source of the data in a transaction."
@@ -95,3 +152,8 @@
   (d/q '[:find (pull ?obj [*])
          :where [?obj :object/name]]
     (d/db conn)))
+;; Give me the mean radius of Mars
+(d/q '[:find ?meanRadius
+       :where [?obj :object/name "Mars"]
+              [?obj :object/meanRadius ?meanRadius]]
+  (d/db conn))
