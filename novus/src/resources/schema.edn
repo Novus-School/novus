@@ -1,4 +1,4 @@
-[; student attributes
+[; 1. student attributes
  {:db/ident :student/id
   :db/doc "The id of the account"
   :db/unique :db.unique/identity
@@ -18,6 +18,11 @@
  {:db/ident :student/picture-url
   :db/doc "The picture-url of the account"
   :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+
+ {:db/ident :student/school
+  :db/doc "School of the student"
+  :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/one}
 
  {:db/ident :student/conversations
@@ -43,8 +48,57 @@
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/many}
 
+ ;; 2. School attributes
+ {:db/ident :school/id
+  :db/doc "The id of the school"
+  :db/unique :db.unique/identity
+  :db/valueType :db.type/uuid
+  :db/cardinality :db.cardinality/one}
 
- ; course attributes
+ {:db/ident :school/name
+  :db/doc "The name of the school"
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+
+ {:db/ident :school/address
+  :db/doc "The address of the school"
+  :db/valueType :db.type/ref
+  :db/isComponent true
+  :db/cardinality :db.cardinality/one}
+
+ ;; ===== 3. Address attributes ======
+ {:db/ident :address/id
+  :db/doc "The id of the address"
+  :db/unique :db.unique/identity
+  :db/valueType :db.type/uuid
+  :db/cardinality :db.cardinality/one}
+
+ {:db/ident :address/street1
+  :db/doc "Street 1 of the address"
+  :db/valueType :db.type/long
+  :db/cardinality :db.cardinality/one}
+
+ {:db/ident :address/street2
+  :db/doc "Street 2 of the address"
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+
+ {:db/ident :address/province
+  :db/doc "Province of address"
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+
+ {:db/ident :address/country
+  :db/doc "The country of the address"
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+
+ {:db/ident :address/postal
+  :db/doc "The postal code of the address"
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+
+ ; 4. course attributes
  {:db/ident :course/id
   :db/doc "The id of the course"
   :db/unique :db.unique/identity
@@ -88,7 +142,7 @@
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/many}
 
- ; section attributes
+ ; 5. section attributes
  {:db/ident :section/id
   :db/doc "The id of the section"
   :db/valueType :db.type/uuid
@@ -112,7 +166,7 @@
   :db/cardinality :db.cardinality/one}
 
 
- ; challenge attributes
+ ; 6. challenge attributes
  {:db/ident :challenge/id
   :db/doc "The id of the challenge"
   :db/valueType :db.type/uuid
@@ -155,7 +209,7 @@
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/many}
 
- ; choice attributes
+ ; 7. choice attributes
  {:db/ident :choice/id
   :db/doc "The id of the choice"
   :db/valueType :db.type/uuid
@@ -173,7 +227,7 @@
   :db/cardinality :db.cardinality/one}
 
  ;; ===== Social and Communication ========
- ; group attributes
+ ; 8 group attributes
  {:db/ident :group/id
   :db/doc "The id of the group"
   :db/valueType :db.type/uuid
@@ -185,7 +239,7 @@
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
 
-  ; conversation attributes
+  ; 9 conversation attributes
  {:db/ident :conversation/id
   :db/doc "The id of the conversation"
   :db/valueType :db.type/uuid
@@ -203,7 +257,7 @@
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/many}
 
- ; message attributes
+ ; 10 message attributes
  {:db/ident :message/id
   :db/doc "The id of the message"
   :db/valueType :db.type/uuid
