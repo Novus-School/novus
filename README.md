@@ -1,9 +1,18 @@
 # Learn Datomic Cloud by building Novus
 
-
-Notes on Datomic Cloud. Including Datomic dev-local, Datomic Ions, and AWS deployment.
 ![1500x500](https://user-images.githubusercontent.com/67298065/154822202-7c9cff84-3789-4756-9f37-fd733a6b1e7c.jpeg)
 
+
+Novus is a fictional Ed Start up. Novus is built using Immutable Stack
+
+Tech Stack
+- Datomic Cloud  - a distributed immutable db that runs on aws
+- Clojure        - jvm hosted, modern lisp
+- ClojureScript  - js hosted, modern lisp
+- AWS            - cloud provider
+- CloudFormation - declarative deployment
+
+Notes on Datomic Cloud. Including Datomic dev-local, Datomic Ions, and AWS deployment.
 
 ## Course files
 
