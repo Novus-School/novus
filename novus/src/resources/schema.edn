@@ -173,6 +173,7 @@
   :db/unique :db.unique/identity
   :db/cardinality :db.cardinality/one}
 
+ ;; Future Work: Chellange Builder: An interactive chellange builder
  {:db/ident :challenge/type
   :db/doc "Type of the challenge"
   :db/valueType :db.type/string
@@ -206,6 +207,11 @@
 
  {:db/ident :challenge/solutions
   :db/doc "Solutions to the challange"
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/many}
+
+ {:db/ident :challenge/rewards
+  :db/doc "Rewards to the challange"
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/many}
 
