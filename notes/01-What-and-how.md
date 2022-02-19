@@ -1,5 +1,5 @@
 ### 1. What and how notes?
-- Refactor cheffy API: change db from postgresql 
+- Refactor cheffy API: change db from postgresql to datomic
     - Architectural change doc
         - why was the change made?
     q. what is cheffy?
@@ -16,12 +16,11 @@
         - data validation
         - tests
         - replace db layer
-        - datomic 
+        - datomic
             - schema: how all of these are constructed and built
             - rules
             - transactions
             - transaction functions
-            
+
 ### 2. How does reitit works and how is everything connected?
 TODO
-
