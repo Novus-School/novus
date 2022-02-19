@@ -2,7 +2,10 @@
   (:require [cheffy.router :as router]
             [environ.core :refer [env]]
             [integrant.core :as ig]
-            [ring.adapter.jetty :as jetty]))
+            [ring.adapter.jetty :as jetty]
+            [datomic.client.api :as d]
+            [datomic.dev-local :as dl]
+            [cheffy.samples.solar-system]))
 
 (defn app
   [env]
@@ -33,13 +36,21 @@
   (println "\nConfigured auth0")
   auth0)
 
-(defmethod ig/init-key :db/postgres
-  [_ config]
-  (println "\nStarted DB")
-  config)
+(comment
+  (d/create-database))
 
-(defmethod ig/halt-key! :db/postgres
+(defmethod ig/init-key :db/datomic
   [_ config]
+  (println "\nStarting DB")
+  (let [db-name (select-keys config [:db-name])
+        client  (d/client (select-keys config [:server-type :system]))
+        _       (d/create-database client db-name)
+        conn    (d/connect client db-name)]
+   (assoc config :conn conn)))
+
+(defmethod ig/halt-key! :db/datomic
+  [_ config]
+  (dl/release-db (select-keys config [:system :db-name]))
   (println "\nStopping DB"))
 
 (defmethod ig/halt-key! :server/jetty
