@@ -18,7 +18,7 @@
 
 ;; Aside - Delete
 (comment
-  ; (d/delete-database client  {:db-name "solar-system-pro"})
+  (d/delete-database client  {:db-name "solar-system-pro"})
   (dl/release-db  {:db-name "solar-system-pro"
                    :system "custom"}))
 ;; Step 2: Connect to a database. Connect function returns a database connection

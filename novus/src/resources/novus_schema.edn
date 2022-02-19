@@ -179,7 +179,7 @@
   :db/valueType :db.type/uuid
   :db/unique :db.unique/identity
   :db/cardinality :db.cardinality/one}
-
+ 
  {:db/ident :group/name
   :db/doc "Name of the group"
   :db/valueType :db.type/string
