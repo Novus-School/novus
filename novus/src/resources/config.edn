@@ -1,5 +1,8 @@
 {:server/jetty {:handler #ig/ref :novus/app
                 :port 3000}
- :novus/app {:jdbc-url #ig/ref :db/postgres}
+ :novus/app {:datomic #ig/ref :db/datomic
+             :auth0 #ig/ref :auth/auth0}
  :auth/auth0 {:client-secret "auth0-client-secret"}
- :db/postgres {:jdbc-url "jdbc-url"}}
+ :db/datomic {:server-type :dev-local
+              :system "dev"
+              :db-name "learn-datomic"}}
