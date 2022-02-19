@@ -1,3 +1,0 @@
-{:allow []
- :lambdas {}
- :http-direct {:handler-fn }}
