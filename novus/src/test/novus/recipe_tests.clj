@@ -118,6 +118,7 @@
 
 (comment
 
+  (ts/test-endpoint :get "/v1/recipes")
   (ts/test-endpoint :get "/v1/recipes" {:auth true})
   (ts/test-endpoint :post "/v1/recipes/2ebf903e-56a6-44d0-96da-aaabdaa56686/favorite" {:auth true})
   (ts/test-endpoint :delete "/v1/recipes/be49e960-f5da-4a2e-8375-448901401ce7" {:auth true}))

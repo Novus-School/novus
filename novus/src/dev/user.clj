@@ -35,9 +35,9 @@
 ;; Transact novus schema + Seed Data
 (defn seed [conn]
   (let [schema (-> "src/resources/schema.edn" slurp edn/read-string)
-        mock  (-> "src/resources/seed.edn" slurp edn/read-string)])
-  (d/transact conn {:tx-data schema})
-  (d/transact conn {:tx-data mock}))
+        mock  (-> "src/resources/seed.edn" slurp edn/read-string)]
+   (d/transact conn {:tx-data schema})
+   (d/transact conn {:tx-data mock})))
 
 (comment
  (java.util.UUID/randomUUID))

@@ -2,9 +2,19 @@
   (:require [ring.middleware.jwt :as jwt]
             [ring.util.response :as rr]))
 
+(def wrap-env
+ {:name ::env
+  :description "Middleware for injecting env into request"
+  ;; runs once - imporant for performance reasons
+  :compile (fn [{:keys [env]} route-options]
+             (fn [handler]
+               (fn [request]
+                 (handler (assoc request :env env)))))})
+
 (def wrap-auth0
   {:name ::auth0
    :description "Middleware for auth0 authentication and authorization"
+   ;; Runs after every request were called
    :wrap (fn [handler]
            (jwt/wrap-jwt
              handler

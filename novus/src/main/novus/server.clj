@@ -9,8 +9,6 @@
 
 (defn app
   [env]
-  (println "[env]")
-  (clojure.pprint/pprint env)
   (router/routes env))
 
 (defmethod ig/prep-key :server/jetty

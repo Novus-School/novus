@@ -26,17 +26,20 @@
                       :version "1.0.0"}}
      :handler (swagger/create-swagger-handler)}}])
 
-(def router-config
+(defn router-config
+  [env]
   {:validate rs/validate
-   ;:reitit.middleware/transform dev/print-request-diffs
+   :reitit.middleware/transform dev/print-request-diffs
    :exception pretty/exception
-   :data {:coercion coercion-spec/coercion
+   :data {:env env
+          :coercion coercion-spec/coercion
           :muuntaja m/instance
           :middleware [swagger/swagger-feature
                        muuntaja/format-middleware
                        ;exception/exception-middleware
                        coercion/coerce-request-middleware
-                       coercion/coerce-response-middleware]}})
+                       coercion/coerce-response-middleware
+                       mw/wrap-env]}})
 
 (defn routes
   [env]
