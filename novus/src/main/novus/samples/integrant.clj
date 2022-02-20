@@ -1,6 +1,7 @@
 (ns novus.samples.integrant
  (:refer-clojure :exclude [ref read-string run!])
  (:require [clojure.edn :as edn]
+           [clojure.repl :as repl]
            [clojure.walk :as walk]
            [clojure.set :as set]
            [clojure.spec.alpha :as s]
@@ -42,6 +43,12 @@
   "Return true if the key is a keyword or valid composite key."
   [key]
   (or (qualified-keyword? key) (composite-key? key)))
+;;
+(comment
+  (repl/doc qualified-keyword?)
+  (or (qualified-keyword? :novus/id) (composite-key? :novus/id))
+  (or (qualified-keyword? :novus/id) (composite-key? [:novus/id])))
+
 
 (defn normalize-key
   "Given a valid Integrant key, return a keyword that uniquely identifies it."
@@ -87,7 +94,8 @@
   (->Ref key))
 
 (comment
-  (ref #foo/ref))
+  (valid-config-key? :novus/id)
+  (ref :novus/id))
 
 (defn refset
   "Create a set of references to all matching top-level keys in a config map."
