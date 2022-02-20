@@ -160,7 +160,6 @@
   :db/cardinality :db.cardinality/one}
 
 ; 5. section attributes
-
  {:db/ident :section/id
   :db/doc "The id of the section"
   :db/valueType :db.type/uuid
@@ -216,6 +215,84 @@
   :db/doc "Title of the lesson"
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
+
+ ;; 14. Simulation Examples
+ ;; - university application
+ ;; - visa application
+ ;; - space exploration
+ ;; - hostel management
+ ;; - hotel management
+ ;; - air traffic controller
+ ;; - erasmus
+ ;; - bhutan
+
+ ;; 13. Simulations
+ {:db/ident :simulation/id
+  :db/doc "The id of the simulation"
+  :db/valueType :db.type/uuid
+  :db/unique :db.unique/identity
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :simulation/title
+  :db/doc "The title of the simulation"
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :simulation/objectives
+  :db/doc "The objectives of the simulation"
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many}
+ {:db/ident :simulation/level
+  :db/doc "The level of the simulation"
+  :db/valueType :db.type/long
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :simulation/acts
+  :db/doc "The acts of the simulation"
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many}
+ {:db/ident :simulation/resources
+  :db/doc "The resources of the simulation"
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many}
+
+ ;; 14. Simulation Acts
+ {:db/ident :act/id
+  :db/doc "The id of the act"
+  :db/valueType :db.type/uuid
+  :db/unique :db.unique/identity
+  :db/cardinality :db.cardinality/one}
+
+ {:db/ident :act/title
+  :db/doc "The title of the act"
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+
+ {:db/ident :act/scripts
+  :db/doc "The scripts of the act"
+  :db/valueType :db.type/ref
+  :db/isComponent true
+  :db/cardinality :db.cardinality/many}
+
+ ;; 15. Scripts
+ {:db/ident :script/id
+  :db/doc "The id of the script"
+  :db/valueType :db.type/uuid
+  :db/unique :db.unique/identity
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :script/title
+  :db/doc "The title of the script"
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :script/character
+  :db/doc "Character of the script"
+  :db/valueType :db.type/ref
+  :db/isComponent true
+  :db/cardinality :db.cardinality/many}
+ ;; Possible Types: Dialog, Questions, Reactions, Poll, Popup, Dropdown, Simulation
+ {:db/ident :script/type
+  :db/doc "Actor of the script"
+  :db/valueType :db.type/ref
+  :db/isComponent true
+  :db/cardinality :db.cardinality/many}
+
 
  ; 6. challenge attributes
  {:db/ident :challenge/id
