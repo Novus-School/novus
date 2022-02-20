@@ -5,7 +5,8 @@
             [ring.adapter.jetty :as jetty]
             [datomic.client.api :as d]
             [datomic.dev-local :as dl]
-            [novus.samples.solar-system]))
+            [novus.samples.solar-system]
+            [novus.samples.integrant]))
 
 (defn app
   [env]

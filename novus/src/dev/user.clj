@@ -23,7 +23,8 @@
 
 (comment
   (start-dev)
-  (stop-dev))
+  (stop-dev)
+  (restart-dev))
 
 ;;
 (comment
