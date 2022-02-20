@@ -12,6 +12,10 @@ Tech Stack
 - AWS            - cloud provider
 - CloudFormation - declarative deployment
 
+[Whimsical link](https://whimsical.com/novus-architecture-SmhW45WHUb67HdbWLdFULK)
+
+
+
 Notes on Datomic Cloud. Including Datomic dev-local, Datomic Ions, and AWS deployment.
 
 ## Course files
