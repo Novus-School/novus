@@ -14,7 +14,8 @@
  {:dev {:extra-paths ["src/dev"]
         :extra-deps {com.datomic/dev-local {:mvn/version "1.0.242"}
                      integrant/repl {:mvn/version "0.3.2"}}}
-  :socket-repl {:jvm-opts ["-Dclojure.server.repl={:port,50505,:accept,clojure.core.server/repl}"]}
+  ;; Allow novus to accept external REPL clients via a local connection to port 7777.
+  :socket-repl {:jvm-opts ["-Dclojure.server.repl={:port 7777 :accept clojure.core.server/repl}"]}
   :test
   {:extra-paths ["src/test"]
    :extra-deps {com.datomic/dev-local {:mvn/version "1.0.242"}
