@@ -38,9 +38,8 @@
   :db/cardinality :db.cardinality/many}
 
  {:db/ident :student/courses
-  :db/doc "The learning paths of the student"
+  :db/doc "The courses of the student"
   :db/valueType :db.type/ref
-  :db/isComponent true
   :db/cardinality :db.cardinality/many}
 
  {:db/ident :student/groups
@@ -105,18 +104,24 @@
   :db/valueType :db.type/uuid
   :db/cardinality :db.cardinality/one}
 
- {:db/ident :course/owner
+ {:db/ident :course/creator
   :db/doc "The owner of the learning path"
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/one}
 
  {:db/ident :course/name
-  :db/doc "The name of the recipe"
+  :db/doc "The name of the course"
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
 
- {:db/ident :course/favorite-count
-  :db/doc "The number of times a course has been marked as favorite"
+ {:db/ident :course/objectives
+  :db/doc "The objectives of the course"
+  :db/valueType :db.type/ref
+  :db/isComponent true
+  :db/cardinality :db.cardinality/many}
+
+ {:db/ident :course/favourite-count
+  :db/doc "The number of times a course has been marked as favourite"
   :db/valueType :db.type/long
   :db/noHistory true
   :db/cardinality :db.cardinality/one}
@@ -142,7 +147,20 @@
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/many}
 
- ; 5. section attributes
+ ; 11. objective attributes
+ {:db/ident :objective/id
+  :db/doc "The id of the objective"
+  :db/valueType :db.type/uuid
+  :db/unique :db.unique/identity
+  :db/cardinality :db.cardinality/one}
+
+ {:db/ident :objective/text
+  :db/doc "The text of the objective"
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+
+; 5. section attributes
+
  {:db/ident :section/id
   :db/doc "The id of the section"
   :db/valueType :db.type/uuid
@@ -161,10 +179,43 @@
 
  {:db/ident :section/challenges
   :db/doc "The challenges of the section"
-  :db/valueType :db.type/long
+  :db/valueType :db.type/ref
   :db/isComponent true
   :db/cardinality :db.cardinality/one}
 
+ {:db/ident :section/lessons
+  :db/doc "The challenges of the section"
+  :db/valueType :db.type/ref
+  :db/isComponent true
+  :db/cardinality :db.cardinality/one}
+
+ ;; 12. lessons
+ {:db/ident :lesson/id
+  :db/doc "The id of the lesson"
+  :db/valueType :db.type/uuid
+  :db/unique :db.unique/identity
+  :db/cardinality :db.cardinality/one}
+
+ ;; Future Work: Chellange Builder: An interactive chellange builder
+ {:db/ident :lesson/type
+  :db/doc "Type of the lesson"
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+
+ {:db/ident :lesson/context
+  :db/doc "Context of the lesson"
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+
+ {:db/ident :lesson/title
+  :db/doc "Title of the lesson"
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+
+ {:db/ident :lesson/description
+  :db/doc "Title of the lesson"
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
 
  ; 6. challenge attributes
  {:db/ident :challenge/id
