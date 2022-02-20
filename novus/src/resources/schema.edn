@@ -2,7 +2,7 @@
  {:db/ident :student/id
   :db/doc "The id of the account"
   :db/unique :db.unique/identity
-  :db/valueType :db.type/string
+  :db/valueType :db.type/uuid
   :db/cardinality :db.cardinality/one}
 
  {:db/ident :student/first-name

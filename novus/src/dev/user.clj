@@ -6,6 +6,7 @@
             [datomic.client.api :as d]
             [clojure.edn :as edn]))
 
+
 (ig-repl/set-prep!
   (fn [] (-> "src/dev/resources/config.edn" slurp ig/read-string)))
 
@@ -16,13 +17,36 @@
 
 (def app (-> state/system :novus/app))
 (def db (-> state/system :db/datomic))
+(comment
+  (identity state/system))
+
 
 (comment
   (start-dev)
   (stop-dev))
 
-
-;; Transact novus schema
-(def schema (-> "src/resources/schema.edn" slurp edn/read-string))
+;;
 (comment
-  (d/transact (:conn db) {:tx-data schema}))
+  (require 'novus.server {:re-load true})
+  (require 'user {:re-load true})
+  (d/delete-database (:client db) {:db-name (:db-name db)}))
+
+
+;; Transact novus schema + Seed Data
+(defn seed [conn]
+  (let [schema (-> "src/resources/schema.edn" slurp edn/read-string)
+        mock  (-> "src/resources/seed.edn" slurp edn/read-string)])
+  (d/transact conn {:tx-data schema})
+  (d/transact conn {:tx-data mock}))
+
+(comment
+ (java.util.UUID/randomUUID))
+
+(comment
+  (seed (:conn db)))
+
+;; Query: Give me list of all the students
+(comment
+  (d/q '[:find (pull ?student [*])
+         :where [?student :student/id]]
+    (d/db (:conn db))))

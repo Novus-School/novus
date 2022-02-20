@@ -46,7 +46,7 @@
         client  (d/client (select-keys config [:server-type :system]))
         _       (d/create-database client db-name)
         conn    (d/connect client db-name)]
-   (assoc config :conn conn)))
+   (assoc config :conn conn :client client)))
 
 (defmethod ig/halt-key! :db/datomic
   [_ config]
