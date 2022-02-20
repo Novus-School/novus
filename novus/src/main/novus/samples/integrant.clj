@@ -55,6 +55,9 @@
   [key]
   {:pre [(valid-config-key? key)]}
   (if (composite-key? key) (composite-keyword key) key))
+(comment
+  (composite-keyword [:foo/bar])
+  (composite-keyword [:foo/bar :bazz/boo]))
 
 (defn derived-from?
   "Return true if a key is derived from candidate keyword or vector of
@@ -184,7 +187,8 @@
 
 
 (comment
-  (read-string {:eof nil} (slurp "src/dev/resources/config.edn")))
+  (read-string {:eof nil} (slurp "src/dev/resources/config.edn"))
+  (read-string (slurp "src/resources/config.edn")))
 (defn read-string
   "Read a config from a string of edn. Refs may be denotied by tagging keywords
   with #ig/ref."
@@ -370,7 +374,10 @@
   generally used to add in default values and references. By default the
   method returns the value unaltered."
   {:arglists '([key value])}
-  (fn [key value] (normalize-key key)))
+  (fn [key value]
+    (normalize-key key)))
+(comment
+  (normalize-key [:server/jetty]))
 
 (defmethod prep-key :default [_ v] v)
 
@@ -445,6 +452,19 @@
    (let [keyset (set keys)]
      (reduce-kv (fn [m k v] (assoc m k (if (keyset k) (prep-key k v) v))) {} config))))
 
+(comment
+  (prep {:server/jetty {:handler :novus/app
+                        :port 3000}
+         :novus/app {:datomic  :db/datomic
+                     :auth0 :auth/auth0}
+         :auth/auth0 {:client-secret "auth0-client-secret"}
+         :db/datomic {:server-type :dev-local
+                      :system "dev"
+                      :db-name "learn-datomic"}}))
+
+(comment
+  (prep {:server/jetty {:handler #integrant.core.Ref {:key :novus/app}, :port 3000}, :novus/app {:datomic #integrant.core.Ref {:key :db/datomic}, :auth0 #integrant.core.Ref {:key :auth/auth0}}, :auth/auth0 {:client-secret "auth0-client-secret"}, :db/datomic {:server-type :dev-local, :system "dev", :db-name "learn-datomic"}})
+  (prep {:server/jetty {:handler #novus.samples.integrant.Ref {:key :novus/app}, :port 3000}, :novus/app {:datomic #novus.samples.integrant.Ref {:key :db/datomic}, :auth0 #novus.samples.integrant.Ref {:key :auth/auth0}}, :auth/auth0 {:client-secret "auth0-client-secret"}, :db/datomic {:server-type :dev-local, :system "dev", :db-name "learn-datomic"}}))
 (defn init
   "Turn a config map into an system map. Keys are traversed in dependency
   order, initiated via the init-key multimethod, then the refs associated with

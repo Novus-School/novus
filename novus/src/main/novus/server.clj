@@ -56,6 +56,9 @@
   [_ jetty]
   (.stop jetty))
 
+(comment
+  (ig/read-string (slurp "src/resources/config.edn")))
+
 (defn -main
   [config-file]
   (let [config (-> config-file slurp ig/read-string)]
