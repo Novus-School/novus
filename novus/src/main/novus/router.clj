@@ -41,6 +41,10 @@
                        coercion/coerce-response-middleware
                        mw/wrap-env]}})
 
+;; ring-handler - Creates a ring-handler (function) out of a router
+(comment
+  (clojure.repl/doc ring/ring-handler))
+
 (defn routes
   [env]
   (ring/ring-handler

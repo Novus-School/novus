@@ -6,6 +6,9 @@
             [datomic.client.api :as d]
             [clojure.edn :as edn]))
 
+(comment)
+  ; (ig/halt!))
+
 
 (ig-repl/set-prep!
   (fn [] (-> "src/dev/resources/config.edn" slurp ig/read-string)))
