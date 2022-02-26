@@ -1,6 +1,6 @@
 # How to get started with datomic`dev-local` in 5 steps
 
-Requirements: Before you start the tutorial you should have following installed
+**Requirements: Before you start the tutorial you should have following installed**
 - [Java](https://www.oracle.com/java/technologies/downloads/)
 - [JDK v17](https://jdk.java.net/17/)
 - maven: `brew install maven`
