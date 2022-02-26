@@ -1,5 +1,74 @@
 # Dev local 101
 
+## How to get started with datomic dev local in 7 steps?
+
+Requirements: Before you start the tutorial you should have following installed
+- [Java](https://www.oracle.com/java/technologies/downloads/)
+- [JDK v17](https://jdk.java.net/17/)
+- maven: `brew install maven`
+- Clojure: `brew install clojure/tools/clojure`
+
+1. Download cognitect dev-local software (https://cognitect.com/dev-tools). You will need to provide a valid email address.
+2. Check your inbox/junk folder for an email titled "Cognitect dev-tools download" - click on the download link provided in the email. Head over to `downloads` directory
+3. 
+4. Unzip the downloaded file and cd into the directory and run the following script `./install.sh`. This script will install following clojure libraries:
+    - rebl
+    - datomic/dev-local
+
+```zsh
+Installing: com.cognitect/rebl {:mvn/version "0.9.244"}
+Installing: com.datomic/dev-local {:mvn/version "1.0.242"}
+```
+### Aside: (rebl)[https://docs.datomic.com/cloud/other-tools/REBL.html]
+
+ - REBL is a graphical, interactive tool for browsing Clojure data. 
+ - REBL is developed by the Datomic Team at Cognitect, and is available for non-commercial use (per the EULA) free of charge.
+
+REBL is included with Cognitect dev-tools.
+
+  - A two-pane browser/viewer system for viewing collections and their contents
+  - Navigation into and back out of nested collections
+  - A structured editor pane for entering expressions to be evaluated
+  - A root browse of a history of expression evaluations
+  - The ability to 'wrap' a stdio based REPL (e.g. Clojure's native REPL) so that it can monitor and display the interactions therein, while still allowing them to flow back to the host (e.g. the editor)
+  - When used with non-stdio repls (e.g. nREPL), can be launched a la carte and accepts values to inspect via an API call
+  - The ability to capture nested values as defs in the user namespace
+  - The ability to run multiple independent UI windows with cognitect.rebl/ui
+  - Metadata viewing
+  - Datafy support
+  - Extensibility to new browsers and viewers
+  - Full keyboard control via hotkeys
+
+**datomic/dev-local** allows you to develop datomic cloud applications locally
+
+5. Next step is to specify the storage location for datomic. Head to home directory and create a directory called `.datomic`avigate to `.datomic` directory and create a file called `dev-local.edn`. Inside the `edn` file create a map and specify the storage directory `:storage-dir`.  In my case the value is `/Users/vishalgautam/.datomic/storage`. 
+```clj
+{:storage-dir "/Users/vishalgautam/.datomic/storage"}
+```
+Please note that it needs to be a full path. With this done we are done with the dev local. Next step is to configure your secret `settings.yml`
+
+6. First go to the `home` directory and navigate to `.m2`. Inside `.m2` directory should contain a single directory called `repository`. This directory contains all the cached folders from maven. Lets create a file called `settings.xml`
+
+```sh
+➜  .m2 touch settings.xml
+```
+
+Next paste the configuration from the email into `settings.xml`
+
+![Install Finish](settingsxml.png)
+
+7. [Final]: Add an entry under the `:mvn/repos` key in your ~/.clojure/deps.edn file. You only need to do this once, nothing else needs to be done per-project to specify maven information.
+
+```
+{:mvn/repos {"cognitect-dev-tools"
+              {:url "https://dev-tools.cognitect.com/maven/releases/"}}}
+
+```
+
+Once this step is done we are ready to use datomic dev local in our clojure app
+
+
+---
 ## Prologue
 So lets configure datomic dev local,
 so may be first what is datomic dev local
