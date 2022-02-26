@@ -16,7 +16,7 @@
 
 - Check your inbox/junk folder for an email titled "Cognitect dev-tools download" - click on the download link provided in the email. Head over to `downloads` directory
 - Unzip the downloaded file and cd into the directory and run the following script `./install.sh`. This script will install following clojure libraries:
-    - (rebl)[https://docs.datomic.com/cloud/other-tools/REBL.html] - REBL is a graphical, interactive tool for browsing Clojure data
+    - [rebl](https://docs.datomic.com/cloud/other-tools/REBL.html) - REBL is a graphical, interactive tool for browsing Clojure data
     - datomic/dev-local - allows you to develop datomic cloud applications locally
 
 ```zsh
