@@ -1,6 +1,6 @@
 # Dev local 101
 
-## How to get started with datomic dev local in 7 steps?
+## How to get started with datomic dev local in 6 steps?
 
 Requirements: Before you start the tutorial you should have following installed
 - [Java](https://www.oracle.com/java/technologies/downloads/)
@@ -10,8 +10,7 @@ Requirements: Before you start the tutorial you should have following installed
 
 1. Download cognitect dev-local software (https://cognitect.com/dev-tools). You will need to provide a valid email address.
 2. Check your inbox/junk folder for an email titled "Cognitect dev-tools download" - click on the download link provided in the email. Head over to `downloads` directory
-3. 
-4. Unzip the downloaded file and cd into the directory and run the following script `./install.sh`. This script will install following clojure libraries:
+3. Unzip the downloaded file and cd into the directory and run the following script `./install.sh`. This script will install following clojure libraries:
     - rebl
     - datomic/dev-local
 
@@ -41,13 +40,13 @@ REBL is included with Cognitect dev-tools.
 
 **datomic/dev-local** allows you to develop datomic cloud applications locally
 
-5. Next step is to specify the storage location for datomic. Head to home directory and create a directory called `.datomic`avigate to `.datomic` directory and create a file called `dev-local.edn`. Inside the `edn` file create a map and specify the storage directory `:storage-dir`.  In my case the value is `/Users/vishalgautam/.datomic/storage`. 
+4. Next step is to specify the storage location for datomic. Head to home directory and create a directory called `.datomic`avigate to `.datomic` directory and create a file called `dev-local.edn`. Inside the `edn` file create a map and specify the storage directory `:storage-dir`.  In my case the value is `/Users/vishalgautam/.datomic/storage`. 
 ```clj
 {:storage-dir "/Users/vishalgautam/.datomic/storage"}
 ```
 Please note that it needs to be a full path. With this done we are done with the dev local. Next step is to configure your secret `settings.yml`
 
-6. First go to the `home` directory and navigate to `.m2`. Inside `.m2` directory should contain a single directory called `repository`. This directory contains all the cached folders from maven. Lets create a file called `settings.xml`
+5. First go to the `home` directory and navigate to `.m2`. Inside `.m2` directory should contain a single directory called `repository`. This directory contains all the cached folders from maven. Lets create a file called `settings.xml`
 
 ```sh
 ➜  .m2 touch settings.xml
@@ -57,7 +56,7 @@ Next paste the configuration from the email into `settings.xml`
 
 ![Install Finish](settingsxml.png)
 
-7. [Final]: Add an entry under the `:mvn/repos` key in your ~/.clojure/deps.edn file. You only need to do this once, nothing else needs to be done per-project to specify maven information.
+6. [Final]: Add an entry under the `:mvn/repos` key in your ~/.clojure/deps.edn file. You only need to do this once, nothing else needs to be done per-project to specify maven information.
 
 ```
 {:mvn/repos {"cognitect-dev-tools"
