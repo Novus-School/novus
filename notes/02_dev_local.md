@@ -9,7 +9,7 @@
 
 ## Step 1: Download dev-local
 
-- Download cognitect dev-local software (https://cognitect.com/dev-tools).
+- Download cognitect [dev-local](https://cognitect.com/dev-tools) software.
 - You will need to provide a valid email address.
 
 ## Step 2: Run `./install.sh` from the downloaded folder
