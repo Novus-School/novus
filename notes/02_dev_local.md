@@ -1,6 +1,6 @@
 # Dev local 101
 
-## Prelogue
+## Prologue
 So lets configure datomic dev local,
 so may be first what is datomic dev local
 when you want to run datomic cloud, you need to have aws account,
