@@ -33,16 +33,24 @@ An entity is a set of datoms that are all about the same E.
 ### Example Entity
 An entity can be visualized as a table:
 
+```
+[[E         A                  V     Tx   Op
+ [23  :player/first-name  "Luis"      1  true]
+ [23  :player/last-name   "Diaz"      1  true]
+ [23  :player/team        :liverpool  2  true]
+ [23  :player/team        :porto      2 false]]
+```
+
 
 ### Point-In-Time Entity Example
 
-A point-in-time (as-of) view of an entity considers only datoms that whose Op is true as of a certain Tx. In the example above, John no longer prefers :blue as-of 4567, so the point-in-time view as-of 4567 is
+A point-in-time (as-of) view of an entity considers only datoms that whose Op is true as of a certain Tx. In the example above, Luis Diaz no longer plays for :porto as-of 2, so the point-in-time view as-of 2 is
 
 ```
 [[E         A                  V     Tx   Op
- [23  :player/team        :liverpool  2  true]
  [23  :player/first-name  "Luis"      1  true]
- [23  :player/last-name   "Diaz"      1  true]]
+ [23  :player/last-name   "Diaz"      1  true]
+ [23  :player/team        :liverpool  2  true]]
 ```
 
 ### Map View Example

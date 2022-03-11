@@ -82,7 +82,7 @@
 ;; ==== Halt is natually effectful
 ;; In the beginning you are converting config into system
 ;; Once you have the system you need a way to shut it down
-;; this is where the halt method comes it
+;; this is where the halt method comes in
 ;; it is used to shut down the system
 ;; it goes in reverse topological order
 ;; -- meaning when we halt first we close the server, then the handler

@@ -29,6 +29,6 @@ Datomic leverages the attribute's of multiple AWS storage options to satisfy its
 
 Datomic utilizes a stratified approach to provide high performance, low cost, and strong reliability guarantees. Specifically:
 
-ACID semantics are ensured via conditional writes with DynamoDB
-S3 provides highly reliable low cost persistence
-EFS and EC2 instance SSD storage provide very fast local caching
+- ACID semantics are ensured via conditional writes with DynamoDB
+- S3 provides highly reliable low cost persistence
+- EFS and EC2 instance SSD storage provide very fast local caching

@@ -1,0 +1,206 @@
+# Hello Datomic Cloud
+
+By the end of this tutorial you will be able to:
+1. create your own basic clojure deps.edn datomic skeleton app - [FURTURE WORK - cli generator tool nx + datomic plugin?]
+2. integrate a simple REPL development workflow which leads to my favourite part
+3. learn about "flow" and flow driven development
+
+
+## Part A - basic `deps.edn` project + REPL Driven Development 101
+#### Goals:
+After this lesson you will be able to:
+- Creating a simple `deps.edn` project
+- Understand the different properties of `deps.edn` configuration file
+- Learn how to start a socket REPL using the -A command
+- Learn how to connect to socket REPL
+- Learn how to effectively use chlorine
+
+### Step 1: Create a new directory
+
+First, we are going to create a new directory called `novus`. This is where the application code will live
+
+```
+mkdir novus
+```
+
+### Step 2: Configure deps.edn
+
+Next lets cd into the directory and add `deps.edn` file.
+
+```clj
+;; deps.edn
+{}
+```
+
+**Question: What goes inside `deps.edn`?**
+A config map containing the following keys:
+1. `:paths`: this optional property specifies the location path of our source code. Note: By default, the `clj` tool will look for source files in the `src` directory. You must specify the paths manually to override the default behaviour
+2. `:deps` - map of dependencies
+3. `:aliases` - custom aliases
+
+For now lets start by adding our first dependency: clojure
+
+```
+{:deps    {org.clojure/clojure {:mvn/version "1.10.3"}}}
+```
+
+### Step 3: Add REPL
+
+Next, we will need to configure socket REPL so that we can connect to our running app from the IDE. We can use aliases feature of deps.edn for that.
+
+Lets add our first alias `:nrepl`.
+
+```
+{:deps    ...
+ :aliases {:nrepl {:jvm-opts ["-Dclojure.server.repl={:port 7777 :accept clojure.core.server/repl}"]}}}
+```
+Now if we run `clj -A:nrepl`, it should start a network REPL on port `7777`
+
+### Step 4: Add `src` directory
+Next we will create `src` directory and create our root namespace i.e `novus`
+
+```
+mkdir src
+mkdir src/novus
+```
+
+Inside `novus`, we will create a single file called `server.clj`
+```
+touch src/novus/server.clj
+```
+
+### Step 5: Modify `deps.edn` to add paths
+
+```clj
+{:paths ["src/main"]
+ :deps    ...
+ :aliases ...}
+
+```
+
+Since we have overwitten the default path, we will need to also move novus into `main` directory
+```
+mkdir src/main
+mv src/novus src/main
+```
+
+### Step 6: Write simple hello world
+
+```clj
+(ns novus.server)
+
+(defn -main []
+  (println "Hello Novus"))
+```
+
+### Step 7: Connect IDE to REPL
+Start the REPL by running the following
+
+```
+clj -A:nrepl
+```
+This should start a network REPL on port `7777`. (We will improve this in future) Now can connect to our application from the IDE. I am using chlorine plugin in atom IDE to connected to nREPL.
+
+
+### Step 8: Add datomic dev-local dependency
+
+
+Lets add our second alias `:dev`.
+
+
+```
+{:deps
+ {org.clojure/clojure {:mvn/version "1.10.3"}
+  ...
+ :aliases
+
+ {:dev {:extra-paths ["src/dev"]
+        :extra-deps {com.datomic/dev-local {:mvn/version "1.0.242"}}}
+  ;; Allow novus to accept external REPL clients via a local connection to port 7777.
+  :repl {:jvm-opts ["-Dclojure.server.repl={:port 7777 :accept clojure.core.server/repl}"]}}}
+
+```
+
+- We have added our second alias called `:dev` and have specified two properties `:extra-paths` of "src/dev" and a single `:extda-deps` extra dependency - the datomic/dev-local library version "1.0.242" in this case (March 1st, 2022)
+
+In order to load `:dev` alias we have to restart our repl. Lets do that
+
+```
+clj -A:dev:repl
+```
+
+This will ensure three things:
+
+1. We can invoke expressions inside `user.clj` file. `development`
+2. Download `datomic/dev-local` library - which means we can finally start writing our app
+3. Start a network REPL on port `7777`
+
+Next lets create the `dev` directory and create `user.clj` file.
+
+```
+mkdir src/dev
+touch src/dev/user.clj
+```
+
+### Step 9: Require dev-local library
+
+```clj
+(ns user
+  (:require [datomic.client.api :as d]))
+
+;;
+(comment
+  "3 Database API's"
+  (d/delete-database (d/client {:server-type :dev-local
+                                :system "dev"})
+                     {:db-name "random"})
+  (d/list-databases (d/client {:server-type :dev-local
+                                :system "dev"})
+                    {})
+  (d/create-database (d/client {:server-type :dev-local
+                                :system "dev"})
+                     {:db-name "random"}))
+```
+
+### Step 10: Our first datomic function - `create-database`
+
+Creating a datomic database is a two step process
+
+1. create a datomic
+
+*Q: How do you create a datomic client*
+
+Datomic has a `client` function. We need provide a map containing two things
+ - `:server-type`
+ - `:system`
+
+Lets create an example client called `novus-client`
+
+```clj
+(def novus-client (d/client {:server-type :dev-local
+                             :system "dev"}))
+```
+
+Now that we have our client, we can create our first database called "novus". We can create a new database using
+`create-database`
+
+`create-database` function takes two arguments
+ - a datomic `client`
+ - a map containing database name (`:db-name`)
+
+
+```clj
+(def (d/create-database novus-client {:db-name "novus"}))
+```
+
+## Summary
+1. Learn the basics of `deps.edn` project
+2. Learn the basics of `:paths`, `:deps` and `:aliases`
+3. Learn how to start a network REPL in your `deps.edn`
+4. Learn how to add custom dependencies
+5. Learn how to overwrite default path properties
+6. Learn how `:aliases` work
+7. Learn how to run aliases using `-A` command
+8. Learn how to use `chlorine` to connect atom IDE to a nREPL
+9. Learn how to add new dependencies
+10. Learn how to create a basic datomic database
