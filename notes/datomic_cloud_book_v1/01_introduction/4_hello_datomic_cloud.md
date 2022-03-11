@@ -190,8 +190,77 @@ Now that we have our client, we can create our first database called "novus". We
 
 
 ```clj
-(def (d/create-database novus-client {:db-name "novus"}))
+(def db-name {:db-name "novus"})
+(def (d/create-database novus-client db-name))
 ```
+
+Next let's create a datomic connection. We need to create datomic connection because without connection we wont be able to do anything.
+
+We can create a connection using the `connect` function. This function accepts a datomic client and a map containing :db--
+
+```
+(def {:db-name "novus"})
+
+(def conn (d/connect client db-name)]
+```
+
+### Step 11: Create and transact datomic schema
+
+In a relational database, you must specify a table schema that enumerates in advance the attributes (columns) an entity can have. By contrast, Datomic requires only that you specify the properties of individual attributes. Any entity can then have any attribute. Because all datoms are part of a single relation, this is called a universal schema.
+
+Each Datomic database has a schema that describes the set and kind of attributes that can be associated with your domain entities.
+
+A schema only defines the characteristics of the attributes themselves. It does not define which attributes can be associated with which entities. Decisions about which attributes apply to which entities are made by your application.
+
+This gives applications a great degree of freedom to evolve over time. For example, an application that wants to model a person as an entity does not have to decide up front whether the person is an employee or a customer. It can associate a combination of attributes describing customers and attributes describing employees with the same entity. An application can determine whether an entity represents a particular abstraction, customer or employee, simply by looking for the presence of the appropriate attributes.
+
+There are two kinds of attributes in Datomic:
+
+Domain attributes - describe aspects of your domain data. You use domain attributes to describe the data about your domain entities.
+Schema attributes - describe aspects of the schema itself. Schema attributes are built-in and cannot be extended. You use schema attributes to define your domain attributes.
+For more information see the [schema documentation](https://docs.datomic.com/cloud/schema/schema-reference.html).
+
+
+For our case, let start with modelling the student. To keep it simple we will define only 4 attributes:
+- ID
+- first name
+- last name
+- school
+
+
+```clj
+(def novus-schema
+  [{:db/ident :student/id
+    :db/doc "The id of the account"
+    :db/unique :db.unique/identity
+    :db/valueType :db.type/uuid
+    :db/cardinality :db.cardinality/one}
+
+   {:db/ident :student/first-name
+    :db/doc "The first name of the account"
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one}
+
+   {:db/ident :student/last-name
+    :db/doc "The last name of the account"
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one}
+
+   {:db/ident :student/school
+    :db/doc "School of the student"
+    :db/valueType :db.type/ref
+    :db/cardinality :db.cardinality/one}])
+```
+
+Now that we have defined our schema, lets transact it using the `transact` function. This function accepts two argument: `conn` and map containing :tx-data - value must be the schema.
+
+Keep in mind that Datomic uses the same function to transact core data. Meaning schema is added the same manner as any other data, keeping the API simple.
+
+
+```clj
+(d/transact conn {:tx-data schema})
+```
+
 
 ## Summary
 1. Learn the basics of `deps.edn` project
@@ -204,3 +273,4 @@ Now that we have our client, we can create our first database called "novus". We
 8. Learn how to use `chlorine` to connect atom IDE to a nREPL
 9. Learn how to add new dependencies
 10. Learn how to create a basic datomic database
+11. Learn the basics of Datomic Schema + how to add it to our database using `dispatch` function
