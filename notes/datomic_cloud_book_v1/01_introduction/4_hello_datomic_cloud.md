@@ -280,10 +280,10 @@ To query a database, you must first obtain a `connection` and a `database value`
 `q` Performs the query described by query and args, and returns a collection of tuples.
 
  - :query - The query to perform: a map, list, or string. Complete description.
- - :find - specifies the tuples to be returned.
- - :with - is optional, and names vars to be kept in the aggregation set but not returned
- - :in - is optional. Omitting ':in …' is the same as specifying ':in $'
- - :where - limits the result returned
+  - :find - specifies the tuples to be returned.
+  - :with - is optional, and names vars to be kept in the aggregation set but not returned
+  - :in - is optional. Omitting ':in …' is the same as specifying ':in $'
+  - :where - limits the result returned
  - :args - Data sources for the query, e.g. database values retrieved from a call to db, and/or rules.
 
 
@@ -311,7 +311,7 @@ To query a database, you must first obtain a `connection` and a `database value`
 ```
 
 
-#### Query 2: Give me count of all the student
+#### Query 2: Give me count of all the students
 ```
 (d/q '[:find (count ?student)
        :where [?student :student/id]]
