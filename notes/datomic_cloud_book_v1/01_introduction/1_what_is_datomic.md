@@ -1,5 +1,7 @@
 # Introduction
 
+// https://www.infoq.com/articles/Datomic-Information-Model/
+
 **What is Datomic?**
 
 Datomic is a distributed and immutable database offered by Cognitect. Datomic has a unique design that offers some interesting properties: these could add significant business value in the right circumstances. It offers:

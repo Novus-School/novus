@@ -261,6 +261,50 @@ Keep in mind that Datomic uses the same function to transact core data. Meaning 
 (d/transact conn {:tx-data schema})
 ```
 
+### Step 12: Transact mock students
+```clj
+(def mock-data (-> "src/resources/seed.edn" slurp edn/read-string))
+
+(d/transact conn {:tx-data mock-data})
+```
+
+Notice the api for transacting data is the same as schema leading to code api consistency
+
+
+### Step 13: Query
+
+To query a database, you must first obtain a `connection` and a `database value`. The example below shows a simple query using the Synchronous API. This query fetches all the students.
+
+#### Query 1: Give me list of all the students
+
+```
+(comment
+  (d/q '[:find (pull ?student [*])
+         :where [?student :student/id]]
+    (d/db (:conn db))))
+
+;; returns
+[[{:db/id 87960930222227,
+   :student/id #uuid "0515a5fa-f177-44f0-8144-d6bdcc403564",
+   :student/first-name "Lynn",
+   :student/last-name "Margulis"}
+ [{:db/id 87960930222228,
+   :student/id #uuid "1c1bae77-13fa-4cd1-b595-6c86fdd55946",
+   :student/first-name "Galileo",
+   :student/last-name "Galilei"}]]
+
+```
+
+#### Query 2: Give me count of all the student
+```
+(d/q '[:find (count ?student)
+       :where [?student :student/id]]
+  (d/db (:conn db))))
+
+;; return [[2]]
+```
+
+
 
 ## Summary
 1. Learn the basics of `deps.edn` project
@@ -274,3 +318,5 @@ Keep in mind that Datomic uses the same function to transact core data. Meaning 
 9. Learn how to add new dependencies
 10. Learn how to create a basic datomic database
 11. Learn the basics of Datomic Schema + how to add it to our database using `dispatch` function
+12. Learn to leverage the transact function to add mock data
+13. Learn the basics of query API - q function
