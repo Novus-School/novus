@@ -6,6 +6,9 @@
 (def fantasy (json/read-str (slurp "src/resources/fantasy.json")
                             :key-fn keyword))
 
+
+
+
 ;; query: tell me about Liverpool
 (comment
   (keys (first (filter #(= "Liverpool" (:name %)) (vals (-> fantasy :teams :byId))))))
@@ -63,4 +66,14 @@
   "Question 2 - tell me everthing about Liverpool"
   (ffirst (d/q '[:find (pull ?team [*])
                  :where [?team :team/name "Liverpool"]]
+               (d/db conn)))
+  "Question 2b - tell me everthing about Liverpool - map form"
+  (ffirst (d/q {:find (pull ?team [*])
+                :where [?team :team/name "Liverpool"]}
                (d/db conn))))
+
+
+(comment
+  (map (fn [[k v]] {:key v}) (:keys (d/history (d/db conn))))
+  ;; https://clojuredocs.org/clojure.core/sorted-map
+  (into (sorted-map) (:keys (d/history (d/db conn)))))

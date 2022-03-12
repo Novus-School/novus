@@ -53,4 +53,8 @@
 (comment
   (d/q '[:find (pull ?student [*])
          :where [?student :student/id]]
+    (d/db (:conn db)))
+;; Query: Give me count of all the students
+  (d/q '[:find (count ?student)
+         :where [?student :student/id]]
     (d/db (:conn db))))
