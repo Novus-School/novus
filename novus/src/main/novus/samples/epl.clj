@@ -1,4 +1,4 @@
-(ns novus.apps.epl
+(ns novus.samples.epl
   (:require [datomic.client.api :as d]
             [clojure.data.json :as json]))
 
@@ -59,7 +59,7 @@
 ;; Step 8 - Ask Questions
 (comment
   "Question 1 - give me the list of all the team names"
-  (d/q '[:find ?team-name
+  (d/q '[:find (pull ?team [*])
          :where [?team :team/name ?team-name]]
        (d/db conn)))
 (comment
@@ -67,11 +67,18 @@
   (ffirst (d/q '[:find (pull ?team [*])
                  :where [?team :team/name "Liverpool"]]
                (d/db conn)))
-  "Question 2b - tell me everthing about Liverpool - map form"
-  (ffirst (d/q {:find (pull ?team [*])
-                :where [?team :team/name "Liverpool"]}
-               (d/db conn))))
-
+  ; "Question 2b - tell me everthing about Liverpool - map form"
+  ; (ffirst (d/q {:find (pull ?team [*])
+  ;               :where [?team :team/name "Liverpool"]}
+  ;              (d/db conn)))
+  ;; directly pull top 10 teams highest team ID
+  ;; learned from: https://github.com/cognitect-labs/day-of-datomic-cloud/blob/master/tutorial/aggregates.repl
+  (d/index-pull (d/db conn) {:index :avet
+                             :selector '[*]
+                             :start [:team/id]
+                             :reverse true
+                             :limit 10}))
+  ;; Task: find the team with lowest ID
 
 (comment
   (map (fn [[k v]] {:key v}) (:keys (d/history (d/db conn))))

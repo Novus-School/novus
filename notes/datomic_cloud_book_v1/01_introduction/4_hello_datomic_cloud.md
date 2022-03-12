@@ -275,13 +275,28 @@ Notice the api for transacting data is the same as schema leading to code api co
 
 To query a database, you must first obtain a `connection` and a `database value`. The example below shows a simple query using the Synchronous API. This query fetches all the students.
 
+`datomic.client.ap/q` is the primary entry point for Datomic query.
+
+`q` Performs the query described by query and args, and returns a collection of tuples.
+
+ - :query - The query to perform: a map, list, or string. Complete description.
+ - :find - specifies the tuples to be returned.
+ - :with - is optional, and names vars to be kept in the aggregation set but not returned
+ - :in - is optional. Omitting ':in …' is the same as specifying ':in $'
+ - :where - limits the result returned
+ - :args - Data sources for the query, e.g. database values retrieved from a call to db, and/or rules.
+
+
 #### Query 1: Give me list of all the students
 
 ```
-(comment
-  (d/q '[:find (pull ?student [*])
-         :where [?student :student/id]]
-    (d/db (:conn db))))
+;; get db value
+(def db (d/db conn))
+
+;; query
+(d/q '[:find (pull ?student [*])
+       :where [?student :student/id]]
+      db)
 
 ;; returns
 [[{:db/id 87960930222227,
@@ -294,6 +309,7 @@ To query a database, you must first obtain a `connection` and a `database value`
    :student/last-name "Galilei"}]]
 
 ```
+
 
 #### Query 2: Give me count of all the student
 ```
@@ -308,7 +324,7 @@ To query a database, you must first obtain a `connection` and a `database value`
 
 ## Summary
 1. Learn the basics of `deps.edn` project
-2. Learn the basics of `:paths`, `:deps` and `:aliases`
+2. Learn the basics of `:paths` (specify custom path), `:deps` (dependencies) and `:aliases`
 3. Learn how to start a network REPL in your `deps.edn`
 4. Learn how to add custom dependencies
 5. Learn how to overwrite default path properties
