@@ -3,7 +3,6 @@
             [novus.account.routes :as account]
             [novus.conversation.routes :as conversation]
             [novus.middleware :as mw]
-            [novus.recipe.routes :as recipe]
             [muuntaja.core :as m]
             [reitit.coercion.spec :as coercion-spec]
             [reitit.dev.pretty :as pretty]
@@ -52,7 +51,6 @@
       [swagger-docs
        ["/v1"
         account/routes
-        recipe/routes
         conversation/routes]]
       (router-config env))
     (ring/routes
