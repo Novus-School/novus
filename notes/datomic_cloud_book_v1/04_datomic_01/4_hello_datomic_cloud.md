@@ -320,6 +320,8 @@ To query a database, you must first obtain a `connection` and a `database value`
 ;; return [[2]]
 ```
 
+Okay for now we are going to stop at datomic
+
 
 
 ## Summary
