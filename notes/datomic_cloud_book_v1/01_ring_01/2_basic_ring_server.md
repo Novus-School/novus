@@ -49,27 +49,63 @@ mkdir src/dev
 
 `user.clj` is a very special file. This is where all the magic happens.
 
-Inside `src/dev` directory we will add a clojure file called `user.clj`.
+Lets add it inside Inside `src/dev` directory.
 
 ```
 touch src/dev/user.clj
 ```
 
+Next lets declate the user `namespace`. 
+
+Q: What is a `namespace?`
+"Namespaces provide a means to organize our code and the names we use in our code. Specifically, they let us give new unambiguous names to functions or other values. These full names are naturally long because they include context. Thus namespaces also provide a means to unambiguously reference the names of other functions and values but using names that are shorter and easier to type.
+
+A namespace is both a name context and a container for vars. Namespace names are symbols where periods are used to separate namespace parts, such as clojure.string. By convention, namespace names are typically lower-case and use - to separate words, although this is not required." - [link](https://clojure.org/guides/learn/namespaces)
+
+
+#### Creating a new namespace with `ns` macro
+
+TODO: Read this blog - extreact ideas + points: https://justabloginthepark.com/2017/06/18/clojure-and-the-esoteric-mysteries-of-namespaces/
+
+
+- The best way to set up a new namespace at the top of a Clojure source file is to use the `ns` macro. 
+- By default this will create a new namespace that contains mappings for:
+   - the classnames in java.lang plus 
+   - clojure.lang.Compiler, and 
+   - the functions in clojure.core.
+
+Basic Usage
+```clj
+(ns name docstring? references*)
+```
+- `name` is the name of new namespace
+- `docstring?` Optional documentation
+- `references*`: Zero or more references (more on references later)
+
+Lets create a `user` namespace by simply passing the `name` property
+
 ```clj
 (ns user)
 ```
+This will create a new namespace called `user`. Meaning our `user` namespace has access to 
+1. classnames in `java.lang` and `clojure.lang.Compiler` and most importantly
+3. all the functions in `clojure.core` i.e #{map ->> juxt ...}
 
-### Step 4: Start nREPL
+### Step 4: Start the nREPL (network REPL)
 
-Next lets fire up the repl
+Now that we have our `user` namespace, its time to fire up our superpower - nREPL
+
+Next lets fire up the repl. Enter the following into the console
 ```
 clj -A:dev:nrepl
 ```
 
-This will start a networked REPL on port 7777
+This will start a networked REPL on port `7777`. Now that our network REPL is running on port `7777`, this means that we are ready connect our IDE to the running REPL. This way we can incrementally build application by testing simple functions in the REPL -> usually under a rich comment block. And then later we can run them into `tests`.
+
+Note: I am using chlorine + Atom to connect to REPL. You can use whatever IDE + nREPL. If you code in VSCode or Sublime and want to leverage other solutions, there are plenty of tutorials online to get started on this topic.
 
 
-### Step 5: Create room namespace directory and demo file
+### Step 5: Create `root` namespace directory and demo file
 
 Let's create our root namespace directory called `novus` inside `main`.
 
