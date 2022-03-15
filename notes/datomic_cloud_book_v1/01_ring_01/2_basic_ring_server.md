@@ -19,11 +19,16 @@ Next let's cd into the directory and add a `deps.edn` file. Inside we will speci
            :nrepl {:jvm-opts ["-Dclojure.server.repl={:port 7777 :accept clojure.core.server/repl}"]}}}
 
 ```
-- `:paths` - this property specifies the location path of our source code i.e inside `src/main` directory. Note: By default, the clj tool will look for source files in the `src` directory. You must specify the paths manually to override the default behaviour
-- `:deps`  - dependencies. currenly we have two
-- `:aliases` - custom aliases. currently we have two: `dev` and `nrepl`
-    - dev - we have specified extra-path during development. this is where user.clj file will live
-    - nrepl - starts nrepl at port 7777
+`:paths` 
+  - this property specifies the location path of our source code i.e inside `src/main` directory. 
+  - By default, the clj tool will look for source files in the `src` directory. 
+  - You must specify the paths manually to override the default behaviour.
+`:deps` 
+  - this is where we specfiy our dependencies. currenly we have two - clojure and ring.
+`:aliases`
+  - custom aliases. currently we have two: `dev` and `nrepl`
+  - `dev` - we have specified extra-path during development. this is where user.clj file will live
+  - `nrepl` - starts nrepl (network repl) on port `7777`
 
 
 Next we will create the following directories
