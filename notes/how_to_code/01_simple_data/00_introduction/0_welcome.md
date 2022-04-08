@@ -1,25 +1,32 @@
 # Welcome
 
+## Introduction
 
-Vishal Gautam: Welcome to systematic program design.
-What I want to do in this video is tell you a little bit more
-about what the course covers, how it is organized,
-and give you some suggestions for how to learn this material most effectively.
+- Welcome to systematic program design.
+- What I want to do in this video is tell you a little bit more
+  about what the course covers, how it is organized,
+  and give you some suggestions for how to learn this material most effectively.
+## Writing program is hard
 
 First, let's talk about what makes it hard to write programs.
-When you're asked to write a program you're typically
-given a poorly formed problem.
+
+When you're asked to write a program you're typically given a poorly formed problem.
 And what I mean by that is you're asked to write a program to solve some task,
-but the task description is somewhat vague
-or it might be incomplete or sometimes it's just even inconsistent.
+but the task description is somewhat vague or it might be incomplete or sometimes 
+it's just even inconsistent.
+
+### Challenge 1
 So the first challenge is figuring out exactly what we want our program to do.
-And the design method that we're going to learn,
-the first big thing it does for us is helps us figure out exactly that,
+
+### Recommented Solution: Design Method
+And the design method that we're going to learn, the first big thing it does for us is helps us figure out exactly that,
 what it is we want our program to do.
+
 The second thing that makes programming hard is that oftentimes the program is
 too big for us to solve in one go.
 In fact, the way our brains work is we can only
 focus on one small part of the program at once.
+
 So we have to find some way to manage that complexity.
 The second thing the design method does is
 to break the program down into well-chosen smaller pieces, not just

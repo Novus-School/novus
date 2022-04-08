@@ -17,10 +17,12 @@
 2. Understand how commenting works in clojure
 
 Vishal Gautam: So as I said in the introduction,
-we're going to design some great programs
-in this course-- some games, some animations, some information
-visualization, some web programs.
+we're going to design some great programs in this course--
+some games, some animations, some information visualization,
+some web programs.
+
 Really great stuff.
+
 But the thing is, you got to walk before you can run.
 And in the same way, we've got to learn some basic building blocks before we
 can build these great programs.

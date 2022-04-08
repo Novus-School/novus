@@ -1,2 +1,4 @@
 # caching
 .cpcache
+.lsp
+.clj-kondo
