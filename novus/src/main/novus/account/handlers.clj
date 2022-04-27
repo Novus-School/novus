@@ -10,7 +10,7 @@
   (let [{:keys [sub name picture]} claims]))
     ;; FIXME: transact-account
 
-(defn update-role-to-cook!
+(defn update-account!
   [{:keys [env claims] :as _request}]
   (let [uid (:sub claims)
         client-secret (-> env :auth0)

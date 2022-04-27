@@ -19,9 +19,9 @@
            (jwt/wrap-jwt
              handler
              {:issuers
-              {"https://learn-reitit-playground.eu.auth0.com/"
+              {"https://leanuidev.us.auth0.com/"
                {:alg :RS256
-                :jwk-endpoint "https://learn-reitit-playground.eu.auth0.com/.well-known/jwks.json"}}}))})
+                :jwk-endpoint "https://leanuidev.us.auth0.com/.well-known/jwks.json"}}}))})
 
 (def wrap-recipe-owner
   {:name ::recipe-owner
