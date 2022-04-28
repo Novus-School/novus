@@ -53,4 +53,14 @@ If you google this question - you will get something like this:
 
 In layman terms, scientific reasoning is using theories, observations, experiments and reasoning to collect facts about the world and for investigating new connections in nature.
 
-At Novus, we take this approach very seriously
+At Novus, we apply scientific reason to collect facts about javascript, clojure, browser
+
+### Mental Model #3: Knowledge Graph Model
+
+When I was studying in Bhutan, it is common for students to write down all their notes in a textbook. So one textbook per subject, so give or take between 6 - 9 text books, depending on your grade.
+
+This made sense before the time of computers
+
+Now that we have computers, we have to take advantage of them and use them effectively
+
+Novus a graph of Collective Knowledge, as learner interact more and discover more facts - they are creating foundation for future learners who can then use the foundation to form super mental models
