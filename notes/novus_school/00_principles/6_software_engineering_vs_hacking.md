@@ -2,7 +2,8 @@
 
 # 5 Kinds of Thinking and Knowledge - Alan Kay
 
-## Example 1: Tinkering a Bridge
+## Example 1: Evolution of Bridge
+
 ### Level 1 Knowledge: Tinkering a Bridge
 
 To understand the five different kinds of thinking and knowledge, let's say that theres a big body of water and of course want to cross it. Historically the way things started was somebody would tinker something - in this case is a rope bridge. This is one kind kind of knowledge and we share tinkering with all primates and most mammals.
