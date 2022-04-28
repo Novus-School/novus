@@ -2,7 +2,7 @@
 
 ## Step 1: FigureEnd Game
 
-First step is to figure out the end - that includes what roles you want to apply for, 
+First step is to figure out the end - that includes what roles you want to apply for,
 Here is an example:
 
 ## Target Companies:
@@ -11,7 +11,7 @@ Here is an example:
 ## Type
 [x] Full Time
 
-## Target Language: 
+## Target Language:
 [x] JavaScript
 
 ## Roles
@@ -23,7 +23,7 @@ Here is an example:
 
 # Required General Skills for Jr. Software Engineer
 
-- Programming 
+- Programming
 - Communication
 - Asking the right questions
 - Collaboration
@@ -38,11 +38,18 @@ Here is an example:
 - cloud
 - team work
 - handling technical dept
+- preparing ADRs (Architectural Decision Records)
+- reviewing code
+- reading code
+- reading code
+- monitoring error logs
+- reporting errors
+- error prioritization
 
 # Technical Skills
 - client server architecture
 - thinking in data
-- Monitoring and Logging 
+- Monitoring and Logging
 - Communication
 - Frontend:
  - Stack: JavaScript, ClojureScript, HTML, CSS
@@ -74,6 +81,7 @@ project management:
 
 communication:
 - slack
+- discord
 - zoom
 - google hangout
 - email
