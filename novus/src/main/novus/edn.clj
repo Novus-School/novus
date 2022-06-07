@@ -4,6 +4,22 @@
   (:require [datomic.client.api :as d]))
 
 
+;; JSON
+(comment
+  "JSON stands for JavaScript Object Notation
+   is the most popular format for selializing data
+  - JSON is restricted to data.
+      - try pasting JSON.stringify({data: 32, code: () => {}}) on console and see what happens to code property
+  - JSON can only have string keys
+  - JSON can have the following value types
+      - String
+      - Number
+      - Boolean
+      - Array
+      - Object
+  - JSON is not extensible")
+
+
 ;; Sourcer https://learnxinyminutes.com/docs/edn/
 
 (comment
