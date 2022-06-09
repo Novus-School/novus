@@ -139,6 +139,20 @@
     db cid [:purchase/id pid] owner-rules))
 
 ;;
+(defonce errors (atom nil))
+
+(comment
+  @errors)
+(comment
+  (try
+    (owns?
+      (:customer/id sample-customer)
+      (:purchase/id sample-purchase)
+      (d/db bank-conn))
+    (catch Exception ex
+      (reset! errors (ex-data ex)))))
+(comment
+  @errors)
 (comment
   (owns?
     (:customer/id sample-customer)

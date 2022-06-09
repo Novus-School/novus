@@ -10,8 +10,10 @@
   ovotech/ring-jwt {:mvn/version "2.2.1"}
   org.clojure/data.json {:mvn/version "2.4.0"}}
 
- :aliases
+ :mvn/repos
+ {"datomic-cloud" {:url "s3://datomic-releases-1fc2183a/maven/releases"}}
 
+ :aliases
  {:dev {:extra-paths ["src/dev"]
         :extra-deps {com.datomic/dev-local {:mvn/version "1.0.242"}
                      integrant/repl {:mvn/version "0.3.2"}
@@ -23,4 +25,7 @@
    :extra-deps {com.datomic/dev-local {:mvn/version "1.0.242"}
                 ring/ring-mock {:mvn/version "0.4.0"}
                 integrant/repl {:mvn/version "0.3.2"}
-                weavejester/dependency {:mvn/version "0.2.1"}}}}}
+                weavejester/dependency {:mvn/version "0.2.1"}}}
+  :prod
+  {:extra-deps {com.datomic/ion {:mvn/version "1.0.59"}
+                com.datomic/client-cloud {:mvn/version "1.0.119"}}}}}

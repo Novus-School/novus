@@ -4,15 +4,17 @@
             [integrant.repl.state :as state]
             [novus.server]
             [datomic.client.api :as d]
-            [clojure.edn :as edn]
-            [novus.superpowers]))
+            [clojure.edn :as edn]))
 
 (comment)
   ; (ig/halt!))
-
-
+;;
 (ig-repl/set-prep!
- (fn [] (-> "src/dev/resources/config.edn" slurp ig/read-string)))
+  (fn []
+    (let [config (-> "config/dev.edn" slurp ig/read-string)]
+      (ig/load-namespaces config)
+      config)))
+
 
 (def start-dev ig-repl/go)
 (def stop-dev ig-repl/halt)

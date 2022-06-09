@@ -153,7 +153,8 @@
          :where [?obj :object/name]]
     (d/db conn)))
 ;; Give me the mean radius of Mars
-(d/q '[:find ?meanRadius
-       :where [?obj :object/name "Mars"]
-              [?obj :object/meanRadius ?meanRadius]]
-  (d/db conn))
+(comment
+  (d/q '[:find ?meanRadius
+         :where [?obj :object/name "Mars"]
+                [?obj :object/meanRadius ?meanRadius]]
+    (d/db conn)))

@@ -1,8 +1,0 @@
-{:server/jetty {:handler #ig/ref :novus/app
-                :port 8080}
- :novus/app {:datomic #ig/ref :db/datomic
-             :auth0 #ig/ref :auth/auth0}
- :auth/auth0 {:client-secret "auth0-client-secret"}
- :db/datomic {:server-type :dev-local
-              :system "dev"
-              :db-name "learn-datomic"}}

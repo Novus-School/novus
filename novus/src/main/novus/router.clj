@@ -2,6 +2,7 @@
   (:require [clojure.string :as string]
             [novus.account.routes :as account]
             [novus.conversation.routes :as conversation]
+            [novus.student.routes :as student]
             [novus.middleware :as mw]
             [muuntaja.core :as m]
             [reitit.coercion.spec :as coercion-spec]
@@ -51,7 +52,8 @@
       [swagger-docs
        ["/v1"
         account/routes
-        conversation/routes]]
+        conversation/routes
+        student/routes]]
       (router-config env))
     (ring/routes
       (swagger-ui/create-swagger-ui-handler {:path "/"}))))
