@@ -1,4 +1,4 @@
-(ns novus.audit
+(ns novus.tutorial.audit
   (:require [datomic.client.api :as d]))
 
 

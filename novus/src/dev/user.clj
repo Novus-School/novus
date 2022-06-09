@@ -2,7 +2,7 @@
   (:require [integrant.repl :as ig-repl]
             [integrant.core :as ig]
             [integrant.repl.state :as state]
-            [novus.server]
+            ; [novus.server]
             [datomic.client.api :as d]
             [clojure.edn :as edn]))
 

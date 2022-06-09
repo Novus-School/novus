@@ -1,0 +1,4 @@
+{:allow []
+ :lambdas {}
+ ;; caveat: http-direct only works with split stack
+ :http-direct {:handler-fn novus.ion/handler}}

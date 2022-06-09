@@ -6,7 +6,7 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 
-(ns novus.cas
+(ns novus.tutorial.cas
   (:require
      [clojure.core.async :refer (<!!)]
      [cognitect.anomalies :as anom]

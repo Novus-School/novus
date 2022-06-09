@@ -1,10 +1,6 @@
 (ns novus.server
   (:require [novus.router :as router]
-            [environ.core :refer [env]]
-            [integrant.core :as ig]
-            [ring.adapter.jetty :as jetty]
-            [datomic.client.api :as d]
-            [datomic.dev-local :as dl]))
+            [integrant.core :as ig]))
 
 (defn app
   [env]

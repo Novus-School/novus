@@ -1,4 +1,4 @@
-(ns novus.superpowers
+(ns novus.tutorial.superpowers
   (:require [datomic.client.api :as d]))
 
 ;;

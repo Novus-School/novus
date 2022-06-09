@@ -1,4 +1,4 @@
-(ns novus.tutorial
+(ns novus.tutorial.tutorial
 ;;
 ;   Copyright (c) Cognitect, Inc. All rights reserved.
 ;   The use and distribution terms for this software are covered by the
