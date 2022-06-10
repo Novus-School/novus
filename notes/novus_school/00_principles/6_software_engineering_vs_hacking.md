@@ -1,5 +1,18 @@
 # Software Engineering vs Hacking
 
+1. Software Engineering is a team effort where as hacking is usually a sinble person activity
+2. Softeware Engineers usually work on a single code for a long period of time, where has hackers dont have that obligation - they are work on anything they want
+3. Software Engineers have to review other people's code in order to keep up with the increase in code knowledge, a hacker doesnt have to do any of that
+4. Software Engineers needs to write clean and maintainable code
+5. Software Engineers have to write documentation, share knowledge, write tests, come up with new ideas to improve the system
+6. Being a Software Engineering is like being in a team with never ending bi-weekly projects
+7. Software Engineers have work with a code base that can be very old + have lots of legazy code with lots and lots of technical debts
+
+In short, Software Engineer is much more than just writing code all by yourself. Software Engineering is working colloratively with designers, project managers, engineers, sales and marketing to to solve complex business problems.
+Software Engineering is about having to deal with incomplete, poorly formed problems and trying to come with the best possible solution
+
+---
+
 # 5 Kinds of Thinking and Knowledge - Alan Kay
 
 ## Example 1: Evolution of Bridge
@@ -34,17 +47,16 @@ So five kinds of thinking and knowledge. This is their historical order and now 
 
 This is the largest suspension bridge in the world. it required a combination of getting the science done, feeding the science back into engineering using models and making a wonderful synthesis of these main disciplines that is why its really our greatest luck to be born into this time of science and engineering and mathematics working together
 
-
 ### Example 2: Flight
 
 Well here is another dream about water - this time about flight - daedalus and icarus
 
 Leonardo took a shot at it but again he had engine problems. People tried to do man powered flight.
 
-Henry Kremer, a British Industrialist put up big money -  about $700 to $800 today, the first real man powered flight and they kept on crashing the planes.
+Henry Kremer, a British Industrialist put up big money - about $700 to $800 today, the first real man powered flight and they kept on crashing the planes.
 
 After some decades of this uh the guy who was the first soaring champion and an aeronautical engineer, Paul MacCready,
-was trying to figure out how to pay off a debt his brother in law had incurred and that morning he had noticed that the exchange rate made the Kramer prize for manpower flight exactly the debt his brother in law had incurred and started thinking about and his main thought was  well the best people in the world like he knew a lot of the people who were doing this, the best people in the world have been working this for decades and they haven't had anything close to his success. What is the problem? and he said "Well the problem is we don't understand the problem" - so he abandoned thinking about human-powered flight and asked what is a better problem and he went back to his group in simi california and said "look, forget about human-powered flight... lets just make something that can be repaired so quickly that we can handle 10 crashes a day, something is just made out of really scotch tape and some mylar and some aluminium structs"...
+was trying to figure out how to pay off a debt his brother in law had incurred and that morning he had noticed that the exchange rate made the Kramer prize for manpower flight exactly the debt his brother in law had incurred and started thinking about and his main thought was well the best people in the world like he knew a lot of the people who were doing this, the best people in the world have been working this for decades and they haven't had anything close to his success. What is the problem? and he said "Well the problem is we don't understand the problem" - so he abandoned thinking about human-powered flight and asked what is a better problem and he went back to his group in simi california and said "look, forget about human-powered flight... lets just make something that can be repaired so quickly that we can handle 10 crashes a day, something is just made out of really scotch tape and some mylar and some aluminium structs"...
 
 Six weeks they had had more flights and more crashes than everybody else in history put together and in six months they won the Kramer Prize and a few months later they won even the larger Kramer prize which is a flight across the english channel - about 22 miles.
 
