@@ -21,7 +21,7 @@
    {:get
     {:no-doc true
      :swagger {:basePath "/"
-               :info {:title "Novus API Reference"
+               :info {:title "Novus Ion API Reference"
                       :description "The Novus API is organized around REST. Returns JSON, Transit (msgpack, json), or EDN  encoded responses."
                       :version "1.0.0"}}
      :handler (swagger/create-swagger-handler)}}])
