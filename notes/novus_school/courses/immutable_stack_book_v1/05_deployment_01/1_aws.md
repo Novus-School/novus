@@ -358,3 +358,59 @@ Step 6.2: Configure `ion-config.edn`
 Now that we have configured ion entry points, its time to deploy our application
 
 ### Step 7: Deploy Application
+
+#### Push
+
+You capture the current state of your application code by invoking push. push creates a named CodeDeploy revision in Amazon S3, which you can later deploy to one or more Datomic compute groups. If you are working on committed code with no local deps you will get a repropducible revision named after your commit. For work in progress, you will have to supply a name for your (unreproducible) revision.
+
+push reads your deps.edn and ensures all library dependencies and local code are moved to S3. In addition, it creates a first-class revision in Code Deploy. push is smart about minimizing the transfer of code to S3.
+
+```clj
+clj -A:ion-dev '{:op :push}'
+```
+
+If you wait a little, you will receive a map that contains the compand to deploy your app
+
+#### Deploy
+
+When you create a primary compute group or query group, you associate it with a Code Deploy application. The :app-name in your ion-config.edn connects your code to a Code Deploy application and determines which compute groups you can deploy to.
+
+Datomic Cloud manages a Code Deploy deployment group for each compute group. The ion deploy command deploys a previously-pushed ion revision to a deployment group.
+
+deploy uses AWS Step Functions to:
+
+Deploy your code and dependencies to the compute group using Code Deploy. Code Deploy works by moving code from S3 to the compute group's EC2 instances and cycling the Datomic process with a newly-extended classpath, in a rolling fashion. This is much faster than cycling EC2 instances. Deploy is smart about minimizing the transfer of code from S3.
+[optionally] ensure Lambdas If you've configured Lambdas, deploy ensures an AWS Lambda corresponding to each lambda entry point. These AWS Lambdas are in fact just lightweight proxies that forward invocations to your functions running on the Datomic cluster (i.e. your code is not running in AWS Lambda). In this way your code runs near the data and cache, and without the limitations and complexities of running in the Lambda execution context.
+
+Lets deploy our application using the `:deploy` operation
+
+```
+clojure -A:ion-dev '{:op :deploy, :group app-primary, :rev "d4fb5745836e77f991ce368e684f0b8e2e6ad278"}'
+```
+
+This operation returns a map that looks like this
+
+```clj
+{:execution-arn
+ arn:aws:states:us-east-1:118340284428:execution:datomic-app-primary:app-primary-d4fb5745836e77f991ce368e684f0b8e2e6ad278-1655074599874,
+ :status-command
+ "clojure -A:ion-dev '{:op :deploy-status, :execution-arn arn:aws:states:us-east-1:118340284428:execution:datomic-app-primary:app-primary-d4fb5745836e77f991ce368e684f0b8e2e6ad278-1655074599874}'",
+ :doc
+ "To check the status of your deployment, issue the :status-command."}
+```
+
+#### deploy-status
+
+To check the status of your deployment, we can issue the :status-command.
+
+```
+
+clojure -A:ion-dev '{:op :deploy-status, :execution-arn arn:aws:states:us-east-1:118340284428:execution:datomic-app-primary:app-primary-d4fb5745836e77f991ce368e684f0b8e2e6ad278-1655074599874}'
+
+```
+
+If the deployment succeeds, then you should see a map like this
+
+```clj
+{:deploy-status "SUCCEEDED", :code-deploy-status "SUCCEEDED"}
+```
