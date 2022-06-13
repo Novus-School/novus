@@ -1,0 +1,7 @@
+{:paths ["src/main"]
+ :deps    {org.clojure/clojure {:mvn/version "1.10.3"}
+           ring/ring           {:mvn/version "1.9.4"}}
+ :aliases {:server {:extra-paths ["src/resources" "src"]
+                    :main-opts ["-m" "novus.server"]}
+           :dev {:extra-paths ["src/dev"]}
+           :repl {:jvm-opts ["-Dclojure.server.repl={:port 7777 :accept clojure.core.server/repl}"]}}}

@@ -15,16 +15,18 @@ Next let's cd into the directory and add a `deps.edn` file. Inside we will speci
 {:paths ["src/main"]
  :deps    {org.clojure/clojure {:mvn/version "1.10.3"}
            ring/ring           {:mvn/version "1.9.4"}}
- :aliases {:dev {:extra-paths ["src/dev"]}
-           :nrepl {:jvm-opts ["-Dclojure.server.repl={:port 7777 :accept clojure.core.server/repl}"]}}}
+ :aliases {:server {:extra-paths ["src/resources"]
+                    :main-opts ["-m" "novus.server"]}
+           :dev {:extra-paths ["src/dev"]}
+           :repl {:jvm-opts ["-Dclojure.server.repl={:port 7777 :accept clojure.core.server/repl}"]}}}
 
 ```
-#### `:paths` 
-  - this property specifies the location path of our source code i.e inside `src/main` directory. 
-  - By default, the clj tool will look for source files in the `src` directory. 
+#### `:paths`
+  - this property specifies the location path of our source code i.e inside `src/main` directory.
+  - By default, the clj tool will look for source files in the `src` directory.
   - You must specify the paths manually to override the default behaviour.
 
-#### `:deps` 
+#### `:deps`
 
   - this is where we specfiy our dependencies. currenly we have two - clojure and ring.
 
@@ -39,6 +41,7 @@ Next we will create the following directories
 - src
 - src/main
 - src/dev
+- src/resources
 ```
 mkidr src
 mkdir src/main
@@ -55,7 +58,7 @@ Lets add it inside Inside `src/dev` directory.
 touch src/dev/user.clj
 ```
 
-Next lets declate the user `namespace`. 
+Next lets declate the user `namespace`.
 
 Q: What is a `namespace?`
 "Namespaces provide a means to organize our code and the names we use in our code. Specifically, they let us give new unambiguous names to functions or other values. These full names are naturally long because they include context. Thus namespaces also provide a means to unambiguously reference the names of other functions and values but using names that are shorter and easier to type.
@@ -68,10 +71,10 @@ A namespace is both a name context and a container for vars. Namespace names are
 TODO: Read this blog - extreact ideas + points: https://justabloginthepark.com/2017/06/18/clojure-and-the-esoteric-mysteries-of-namespaces/
 
 
-- The best way to set up a new namespace at the top of a Clojure source file is to use the `ns` macro. 
+- The best way to set up a new namespace at the top of a Clojure source file is to use the `ns` macro.
 - By default this will create a new namespace that contains mappings for:
-   - the classnames in java.lang plus 
-   - clojure.lang.Compiler, and 
+   - the classnames in java.lang plus
+   - clojure.lang.Compiler, and
    - the functions in clojure.core.
 
 Basic Usage
@@ -87,7 +90,7 @@ Lets create a `user` namespace by simply passing the `name` property
 ```clj
 (ns user)
 ```
-This will create a new namespace called `user`. Meaning our `user` namespace has access to 
+This will create a new namespace called `user`. Meaning our `user` namespace has access to
 1. classnames in `java.lang` and `clojure.lang.Compiler` and most importantly
 3. all the functions in `clojure.core` i.e #{map ->> juxt ...}
 
@@ -113,12 +116,12 @@ Next let's add a new file called `ring_basic.clj`. This is where we will write o
 
 ```
 mkdir src/main/novus
-touch src/main/novus/ring_basic.clj
+touch src/main/novus/server.clj
 ```
-Open `ring_basic.clj` file and add the namespace
+Open `server.clj` file and add the namespace
 
 ```clj
-(ns novus.ring-basic)
+(ns novus.server)
 
 ```
 
@@ -132,30 +135,28 @@ Now that we have our namespace, we are ready to update it with code to create a 
 
 ```clj
 (defn handler [request]
-  {:status 200
-   :headers {"Content-Type" "text/html"}
-   :body (str ​"<html><body> your IP is: "
-              (:remote-addr request)
-              "</body></html>")})
+ {:status 200
+  :headers {"Content-Type" "application/json"}
+  :body "Hello Immutable Stack"})
 ```
 
 As you can see, the handler function accepts a map representing an HTTP request and returns a map representing an HTTP response. Ring takes care of generating the request map from the incoming HTTP request, and converting the map returned by the function into the corresponding HTTP response that will be sent to the client. Let’s open the ring-app.core and add the handler there.
 
 Now we need to start a web server with our handler attached. We can use Ring’s jetty adapter to configure and start an instance of jetty. To do so, We’ll require it in the namespace declaration and then call `run-jetty` function from our -main function. Our namespace should look like this:
 
-```
-(ns novus.ring-basic
+```clj
+(ns novus.server
   (:require [ring.adapter.jetty :as jetty]))
 
 (defn handler [request]
-  {:status 200
-   :headers {"Content-Type" "text/html"}
-   :body (str ​"<html><body> your IP is: "
-              (:remote-addr request)
-              "</body></html>")})
+ {:status 200
+  :headers {"Content-Type" "application/json"}
+  :body "Hello Immutable Stack"})
 
-(defn main []
- (​jetty/run-jetty handler {:port 3000 :join? false}))
+
+(defn -main []
+  (jetty/run-jetty handler {:port 3000 :join? false}))
+
 
 ```
 The `run-jetty` function accepts the handler function we just created, along with a map containing options such as the HTTP port. The :join? key indicates whether the server thread should block. Let’s set it to false so that we’re able to work in the REPL while it’s running.
@@ -172,18 +173,16 @@ At this point our server is ready to handle requests, and we can navigate to htt
 The handler that we wrote serves an HTML string with the client’s IP address with a response status of 200. Since this is a common operation, the Ring API provides a helper function for generating such responses found in the `ring.util.response` namespace. Let’s reference it and update our handler as follows.
 
 ```clj
-(ns novus.ring-basic
+(ns novus.server
   (:require [ring.adapter.jetty :as jetty]
             [ring.util.response :as response]))
 
 (defn handler [request]
-  (response/response
-   (str ​"<html><body> your IP is: "
-        (:remote-addr request)
-        "</body></html>")))
+  (response/response "Hello Immutable Stack"))
 
-(defn main []
- (​jetty/run-jetty handler {:port 3000 :join? false}))
+(defn -main []
+  (jetty/run-jetty handler {:port 3000 :join? false}))
+
 ```
 
 We should now be able to restart the app in the terminal and see the same page displayed as before. If you want to create a custom response, you’ll have to write a function that would accept a request map and return a response map representing your custom response. Let’s look at the format for the request and response maps.
