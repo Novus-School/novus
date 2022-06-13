@@ -45,6 +45,79 @@ Step 4: Added routing (created student service)
 
 ```clj
 (ns novus.router
+ (:require
+   [reitit.ring :as reitit]
+   [muuntaja.middleware :as muuntaja]
+   [ring.adapter.jetty :as jetty]
+   [ring.util.response :as response]
+   [novus.student.routes :as student]
+   [ring.middleware.reload :refer [wrap-reload]]))
+
+(defn routes
+  [env]
+  (reitit/ring-handler
+    (reitit/router
+     [["/v1"
+       student/routes
+       ["/courses/:id"
+         {:get (fn [{{:keys [id]} :path-params}]
+                 (response/response (str "Course ID:" id)))}]]])))
+
+```
+
+Now if we go to `/v1/students`, we will get a 500 `java.lang.IllegalArgumentException`. To fix this we need to add middlewares.
+
+
+Lets modify our router to add middlewares that handles content negotiation, formatting etc
+
+Reitit supports multiple ways to add middleware. Lets look at the first pattern, inside `ring/router` function. This function accepts an optional map. And inside the map we can specify which middlewares we we would like to add.
+
+
+```clj
+(ns novus.router
+ (:require
+   [reitit.ring :as ring]
+   [ring.adapter.jetty :as jetty]
+   [ring.util.response :as response]
+   ;; Routes
+   [novus.student.routes :as student]
+   ;; Middlewares
+   [muuntaja.core :as m]
+   [reitit.ring.middleware.muuntaja :as muuntaja]))
+
+
+(defn routes
+  [env]
+  (ring/ring-handler
+    (ring/router
+     [["/v1"
+       student/routes
+       ["/courses/:id"
+         {:get (fn [{{:keys [id]} :path-params}]
+                 (response/response (str "Course ID:" id)))}]]]
+     {:data {:muuntaja m/instance
+             :middleware [muuntaja/format-middleware]}})))
+
+
+```
+
+As you can see we have added a map with a single key called `data`. Inside we have provided two properties: a muuntaja instance and a middleware that is going to format our collection
+
+Now that we have added our middleware, lets go and restart the server.
+
+Now if we go to the same link again we should see
+
+```
+{"students":[[{"db/id":87960930222227,"student/id":"0515a5fa-f177-44f0-8144-d6bdcc403564","student/first-name":"Lynn","student/last-name":"Margulis"}],[{"db/id":87960930222228,"student/id":"1c1bae77-13fa-4cd1-b595-6c86fdd55946","student/first-name":"Galileo","student/last-name":"Galilei"}]]}
+```
+Which is a JSON. So the middleware converted our collection from edn to json. Pretty cool, Now that you have a solid foundation of reitit library.
+
+Lets take a break from routing and move on to the next topic which is Datomic
+
+========== OLD STUFF"
+
+```clj
+(ns novus.router
   (:require [clojure.string :as string]
             [novus.student.routes :as student]
             [novus.middleware :as mw]
