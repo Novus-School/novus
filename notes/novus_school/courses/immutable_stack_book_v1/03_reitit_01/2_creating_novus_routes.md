@@ -1,6 +1,5 @@
 Step 4: Added routing (created student service)
 
-4.1 Add reitit dependency
 
 4.2 Define student service
 

@@ -157,7 +157,7 @@ Finally, lets update the `user` namespace
 (ns user
   (:require [integrant.repl :as ig-repl :refer [set-prep! go halt reset]]
             [integrant.core :as ig]
-            [novus.server :refer [config]]))
+            [novus.server]))
 
 ;; Step 1:
 (ig-repl/set-prep!
@@ -174,4 +174,4 @@ Finally, lets update the `user` namespace
 
 ```
 
-Notice that we are now reading the config from `config/dev.edn`
+Notice that we are now reading the config from `config/dev.edn`. We have also removed the `config` dependency from `novus.server`
