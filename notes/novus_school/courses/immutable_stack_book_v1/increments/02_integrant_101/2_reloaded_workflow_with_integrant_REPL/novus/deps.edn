@@ -1,0 +1,9 @@
+{:paths ["src/main"]
+ :deps    {org.clojure/clojure {:mvn/version "1.10.3"}
+           ring/ring           {:mvn/version "1.9.4"}
+           ;; Add this
+           integrant/integrant {:mvn/version "0.8.0"}}
+ :aliases {:dev {:extra-paths ["src/dev"]
+                 :extra-deps {nrepl/nrepl {:mvn/version "0.6.0"}
+                              integrant/repl {:mvn/version "0.3.2"}}
+                 :main-opts ["-m" "nrepl.cmdline"]}}}
