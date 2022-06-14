@@ -44,14 +44,14 @@ AWS
 Clojure/Script
 
 - Functional, Hosted, Lisp
-- Designed for concurrenty
+- Designed for concurrency
 
 Datomic
 
 - Data Oriented Design
 - Entity Orientation
-- Read Scability
-- Flexibility (Read operations seperated read from write)
+- Read Scalability
+- Flexibility (Read operations separated read from write)
 - Treat Database as a Value
 - Point In Time Access
 - Upsert
