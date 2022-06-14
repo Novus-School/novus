@@ -1,0 +1,7 @@
+{:novus.components.jetty/server {:handler #ig/ref :novus.server/app
+                                 :port 3000}
+ :novus.server/app {:datomic #ig/ref :novus.components.datomic-dev-local/db}
+ :novus.components.datomic-dev-local/db {:server-type :dev-local
+                                         :system "dev"
+                                         :db-name "novus"
+                                         :storage-dir :mem}}
