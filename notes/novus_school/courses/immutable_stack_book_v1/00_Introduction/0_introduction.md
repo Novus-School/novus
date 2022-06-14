@@ -73,3 +73,72 @@ Wait a second, if SQL query language was only defined in data and not in string,
 
 
 Luckily we don't see such problems in Datomic, since its everything data - queries are data, transactions are reified, schema is data
+
+## What will you learn
+
+1. Complexity - what it is and how to tame it
+2. Thinking in Data, the Clojure way
+3. Learn Immutable Stack will help you write much simpler software
+
+
+## Technical Skills you will gain after reading this book
+
+1. Thinking In Data
+
+- EDN (Clojure Syntax)
+- REPL
+- Immutability
+- Dynamism
+- Structured code editing
+- Functional programming
+
+2. Server-side with Clojure
+- Configuration.
+- Integrant
+- HTTP
+- GraphQL
+- Routing
+- Middleware
+- Auth
+- AWS
+
+
+3. Client-side with ClojureScript:
+- ClojureScript
+- TypeScript
+- shadow-cljs
+- Reagent
+- Tailwind
+- three.js?
+- SPA's
+
+4. Datomic Cloud - coding, architecture, and tech ops
+- Datomic's shape: eavt - see my talk on this.
+- Modelling domain data.
+- Data as connector between services, thanks to "strong time".
+- Model novelty as in your world as data - assertions and retractions.
+- Query tactics.
+- Auditability.
+- Speculative databases.
+- Database Rules
+- Transaction Functions
+- Validation Functions
+- development vs production concerns
+
+5. Spec
+- Modelling.
+- Generating data.
+- Using data with spec.
+
+
+6. Testing
+- Example-based.
+- Generative.
+- Simulation.
+
+
+7. Builds & Deployments
+- Split Stack
+- Datomic Ions
+- Datomic CLI tools
+- Deploying packaged code using Datomic Ions
