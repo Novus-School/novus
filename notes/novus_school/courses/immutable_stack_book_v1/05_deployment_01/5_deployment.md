@@ -1,5 +1,7 @@
 # Datomic Cloud Deployment
 
+In this lesson you will deploy your first Datomic Cloud application. Lets get started
+
 ## Prerequisites
 
 Before you begin developing an ion application, we need to setup/install the following:
@@ -16,80 +18,14 @@ Deploy the application to aws using ion
 
 ## Steps
 
-1. `add` config/dev.edn
-2. Add Datomic Components
-3. Add Other Components
-4. Routing (define one route - /students)
-5. Install ion + client-cloud
-6. Configure ion entry points
-7. deploy
+1. Add Datomic Cloud Components
+2. Install ion + client-cloud
+3. Configure ion entry points
+4. deploy
 
-Step 1: `add` config/dev.edn
 
-```clj
-{:novus.components.jetty/server {:handler #ig/ref :novus.server/app
-                                 :port 3000}
- :novus.server/app {:datomic #ig/ref :novus.components.datomic-dev-local/db
-                    :auth0 #ig/ref :novus.components.auth0/auth}
- :novus.components.auth0/auth {:client-secret "auth0-client-secret"}
- :novus.components.datomic-dev-local/db {:server-type :dev-local
-                                         :system "dev"
-                                         :db-name "novus"
-                                         :storage-dir :mem}}
+### Step 1: Add Datomic Cloud Component
 
-```
-
-Step 2: Add Datomic Components
-
-- three in total
-  i. datomic - loads schema, data sets etc
-
-```clj
-(ns novus.components.datomic
-  (:require [datomic.client.api :as d]
-            [clojure.edn :as edn]
-            [clojure.java.io :as io]))
-
-(defn ident-has-attr?
-  [db ident attr]
-  (contains? (d/pull db {:eid ident :selector '[*]}) attr))
-
-(defn load-dataset
-  [conn]
-  (let [db (d/db conn)
-        tx #(d/transact conn {:tx-data %})]
-    (when-not (ident-has-attr? db :student/id :db/ident)
-      (tx (-> (io/resource "novus/schema.edn") slurp edn/read-string)))))
-
-```
-
-      ii. datomic-dev-local - local db component
-
-```clj
-(ns novus.components.datomic-dev-local
-  (:require [novus.components.datomic :as datomic]
-            [datomic.client.api :as d]
-            [datomic.dev-local :as dl]
-            [integrant.core :as ig]))
-
-(defmethod ig/init-key ::db
-  [_ config]
-  (println "\nStarted DB")
-  (let [db-name (select-keys config [:db-name])
-        client (d/client (select-keys config [:server-type :system]))
-        _ (d/create-database client db-name)
-        conn (d/connect client db-name)]
-    (datomic/load-dataset conn)
-    (assoc config :conn conn)))
-
-(defmethod ig/halt-key! ::db
-  [_ config]
-  (println "\nStopping DB")
-  (dl/release-db (select-keys config [:system :db-name])))
-
-```
-
-      iii. datomic-cloud    - prod db component
 
 ```clj
 (ns novus.components.datomic-cloud
@@ -112,184 +48,9 @@ Step 2: Add Datomic Components
 
 ```
 
-Step 3: Add other components (external integration, http server etc)
-i. components/jetty - jetty adapter
-
-```clj
-(ns novus.components.jetty
-  (:require [integrant.core :as ig]
-            [ring.adapter.jetty :as jetty])
-  (:import [org.eclipse.jetty.server Server]))
-
-;;
-;; 2.2 :adapter/jetty
-(defmethod ig/init-key ::server [_ {:keys [handler port]}]
-  (jetty/run-jetty handler {:port port
-                            :join? false}))
-
-(defmethod ig/halt-key! ::server [_ ^Server server]
-  (.stop server))
+### Step 2: Install ion + client-cloud
 
 ```
-
-      ii. components/auth0 - auth0
-
-```clj
-(ns novus.components.auth0
-  (:require [integrant.core :as ig]))
-
-(defmethod ig/init-key ::auth
-  [_ config]
-  (println "\nConfigured auth0")
-  config)
-
-
-```
-
-Step 4: Added routing (created student service)
-
-1. Add reitit dependency
-2. define student service
-   - handlers (return mock for now)
-
-```clj
-(ns novus.student.handlers
-  (:require [novus.auth0 :as auth0]
-            [clj-http.client :as http]
-            [muuntaja.core :as m]
-            [datomic.client.api :as d]
-            [ring.util.response :as rr]))
-            ; [datomic.client.api :as d]))
-
-(defonce req-atom (atom nil))
-(comment
-  @req-atom)
-
-
-(defn browse
-  [{{{:keys [conn]} :datomic} :env
-    :as req}]
-  (reset! req-atom req)
-  #_(rr/response {:students (d/q '[:find (pull ?student [*])
-                                   :where
-                                   [?student :student/id]]
-                               (d/db conn))})
-  (rr/response {:students [[{:db/id 87960930222227,
-                             :student/id #uuid "0515a5fa-f177-44f0-8144-d6bdcc403564",
-                             :student/first-name "Lynn",
-                             :student/last-name "Margulis"}]
-                           [{:db/id 87960930222228,
-                             :student/id #uuid "1c1bae77-13fa-4cd1-b595-6c86fdd55946",
-                             :student/first-name "Galileo",
-                             :student/last-name "Galilei"}]]}))
-
-(comment
-  (browse @req-atom))
-
-
-```
-
-    - routes
-
-```clj
-(ns novus.student.routes
-  (:require [novus.student.handlers :as student]
-            [novus.middleware :as mw]))
-
-(def routes
-  ["/students" {:swagger {:tags ["Student v2.0"]}
-                :middleware [[mw/wrap-auth0]]}
-   [""
-    {:get {:handler student/browse
-           :responses {201 {:body nil?}}
-           :summary "Fetch list of students"}}]])
-
-```
-
-3. create router `router.clj`
-
-```clj
-(ns novus.router
-  (:require [clojure.string :as string]
-            [novus.student.routes :as student]
-            [novus.middleware :as mw]
-            [muuntaja.core :as m]
-            [reitit.coercion.spec :as coercion-spec]
-            [reitit.dev.pretty :as pretty]
-            [reitit.ring :as ring]
-            [reitit.ring.coercion :as coercion]
-            [reitit.ring.middleware.dev :as dev]
-            [reitit.ring.middleware.exception :as exception]
-            [reitit.ring.middleware.muuntaja :as muuntaja]
-            [reitit.ring.spec :as rs]
-            [reitit.swagger :as swagger]
-            [reitit.swagger-ui :as swagger-ui]))
-
-(def swagger-docs
-  ["/swagger.json"
-   {:get
-    {:no-doc true
-     :swagger {:basePath "/"
-               :info {:title "Novus API Reference"
-                      :description "The Novus API is organized around REST. Returns JSON, Transit (msgpack, json), or EDN  encoded responses."
-                      :version "1.0.0"}}
-     :handler (swagger/create-swagger-handler)}}])
-
-(defn router-config
-  [env]
-  {:validate rs/validate
-   :reitit.middleware/transform dev/print-request-diffs
-   :exception pretty/exception
-   :data {:env env
-          :coercion coercion-spec/coercion
-          :muuntaja m/instance
-          :middleware [swagger/swagger-feature
-                       muuntaja/format-middleware
-                       ;exception/exception-middleware
-                       coercion/coerce-request-middleware
-                       coercion/coerce-response-middleware
-                       mw/wrap-env]}})
-
-;; ring-handler - Creates a ring-handler (function) out of a router
-(comment
-  (clojure.repl/doc ring/ring-handler))
-
-(defn routes
-  [env]
-  (ring/ring-handler
-    (ring/router
-      [swagger-docs
-       ["/v1"
-        student/routes]]
-      (router-config env))
-    (ring/routes
-      (swagger-ui/create-swagger-ui-handler {:path "/"}))))
-
-```
-
-4. Modify `server.clj`
-
-```clj
-(ns novus.server
-  (:require [novus.router :as router]
-            [integrant.core :as ig]))
-
-(defn app
-  [env]
-  (router/routes env))
-
-(defmethod ig/init-key ::app
-  [_ config]
-  (println "\nStarted app")
-  (app config))
-
-```
-
-Step 5: Install ion + client-cloud
-
-`deps.edn`
-
-```clj
 {:paths ["src/main" "src/resources"]
  :deps
  {org.clojure/clojure {:mvn/version "1.10.3"}
@@ -298,7 +59,8 @@ Step 5: Install ion + client-cloud
   com.datomic/client-cloud {:mvn/version "1.0.119"}}
 ```
 
-Step 6: Configure ion entry points
+
+### Step 3: Configure ion entry points
 
 Ion applications are arbitrary Clojure code, exposed to consumers via one or more entry points. An entry point is a function with a well-known signature. There are five types of of entry points for different callers, each with a different function signature.
 
@@ -306,47 +68,14 @@ Lambda and HTTP direct are external entry points. They expose AWS Lambdas and we
 
 Internal entry points are callbacks that extend the Datomic Client API with your code. They include transaction functions, query functions, and pull xforms.
 
-In our case we qare interested at HTTP Direct Entry Point
+In our case we are interested at HTTP Direct Entry Point
 
 HTTP Direct Entry Point
 
 A web entry point is a function that takes the following input map and returns an output map. The input and output maps are a subset of the Clojure Ring Spec.
 
-Step 6.1: Create the entry function handler - Create `novus.ion` namespace - Define prod config - use `datomic.ion/get-params` to load SSM parameters - Define a function called `app`, that returns the request handler - Define a function called `handler`, which calls the `app` function. This will be our web entry point function
 
-```clj
-(ns novus.ion
- (:require [integrant.core :as ig]
-           [novus.components.auth0 :as auth0]
-           [novus.components.datomic-cloud :as datomic-cloud]
-
-           [datomic.ion :as ion]
-           [novus.server :as server]))
-
-(def integrant-setup
-  {::server/app {:datomic (ig/ref ::datomic-cloud/db)
-                 :auth0 (ig/ref ::auth0/auth)}
-   ::auth0/auth {:client-secret (get (ion/get-params {:path "/datomic-shared/prod/novus/"}) "auth0-client-secret")
-                 :client-id (get (ion/get-params {:path "/datomic-shared/prod/novus/"}) "auth0-client-id")}
-   ::datomic-cloud/db {:server-type :ion
-                       :region "us-east-1"
-                       :system "app-prod"
-                       :db-name "app-prod"
-                       :endpoint "https://3bgnoq0ny3.execute-api.us-east-1.amazonaws.com"}})
-                       ; :system "novus-prod"
-                       ; :db-name "novus-prod"
-                       ; :endpoint "https://9avu4sblfa.execute-api.us-east-1.amazonaws.com"}})
-
-(def app
-  (delay
-    (-> integrant-setup ig/prep ig/init ::server/app)))
-
-(defn handler
-  [req]
-  (@app req))
-```
-
-Step 6.2: Configure `ion-config.edn`
+#### Step 3.1: Configure `resources/datomic/ion-config.edn`
 
 ```clj
 {:allow []
@@ -358,9 +87,46 @@ Step 6.2: Configure `ion-config.edn`
 
 ```
 
+Now that we have defined `ion-config.edn`, lets define the handler function
+
+#### Step 3.2: Create the entry function handler
+
+
+```clj
+(ns novus.ion
+ (:require [integrant.core :as ig]
+           [novus.components.datomic-cloud :as datomic-cloud]
+           [datomic.ion :as ion]
+           [novus.server :as server]))
+
+(def integrant-setup
+  {::server/app {:datomic (ig/ref ::datomic-cloud/db)}
+   ::datomic-cloud/db {:server-type :ion
+                       :region "us-east-1"
+                       :system "app-prod"
+                       :db-name "app-prod"
+                       :endpoint "https://3bgnoq0ny3.execute-api.us-east-1.amazonaws.com"}})
+
+(def app
+  (delay
+    (-> integrant-setup ig/prep ig/init ::server/app)))
+
+(defn handler
+  [req]
+  (@app req))
+
+```
+
+- Create `novus.ion` namespace
+- Define prod config
+- use `datomic.ion/get-params` to load SSM parameters
+- Define a function called `app`, that returns the request handler
+- Define a function called `handler`, which calls the `app` function. This will be our web entry point function
+
+
 Now that we have configured ion entry points, its time to deploy our application
 
-### Step 7: Deploy Application
+### Step 4: Deploy Application
 
 #### Push
 
@@ -416,4 +182,35 @@ If the deployment succeeds, then you should see a map like this
 
 ```clj
 {:deploy-status "SUCCEEDED", :code-deploy-status "SUCCEEDED"}
+```
+
+### How to access the prod endpoint
+
+#### Option 1: You can use `datomic system describe-groups app-prod` command to find the prod url
+
+
+```
+[{"name":"app-primary",
+  "type":"compute",
+  "endpoints":
+  [{"type":"client",
+    "api-gateway-endpoint":
+    "https://3bgnoq0ny3.execute-api.us-east-1.amazonaws.com",
+    "api-gateway-id":"3bgnoq0ny3",
+    "api-gateway-name":"datomic-app-prod-client-api"},
+   {"type":"http-direct",
+    "api-gateway-endpoint":
+    "https://your-prod-api.execute-api.us-east-1.amazonaws.com",
+    "api-gateway-id":"oqdnm8f3y6",
+    "api-gateway-name":"datomic-app-prod-ions"}],
+  "cft-version":"973",
+  "cloud-version":"9132"}]
+```
+
+This command should return a list of compute groups. We are interested in `http-direct`. Copy the `api-gateway-endpoint`
+and try it going to `v1/students`. You should see Lynn Margulis and Galileo being returned
+
+```
+{"students":[[{"db/id":87960930222227,"student/id":"0515a5fa-f177-44f0-8144-d6bdcc403564","student/first-name":"Lynn","student/last-name":"Margulis"}],[{"db/id":87960930222228,"student/id":"1c1bae77-13fa-4cd1-b595-6c86fdd55946","student/first-name":"Galileo","student/last-name":"Galilei"}]]}
+
 ```
