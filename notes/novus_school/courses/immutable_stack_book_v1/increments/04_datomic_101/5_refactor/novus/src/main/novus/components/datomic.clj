@@ -1,6 +1,5 @@
 (ns novus.components.datomic
   (:require [datomic.client.api :as d]
-            ; [novus.validation :as validation]
             [clojure.edn :as edn]
             [clojure.java.io :as io]))
 
@@ -8,7 +7,6 @@
   [db ident attr]
   (contains? (d/pull db {:eid ident :selector '[*]}) attr))
 
-;;
 (defn load-dataset
   [conn]
   (let [db (d/db conn)

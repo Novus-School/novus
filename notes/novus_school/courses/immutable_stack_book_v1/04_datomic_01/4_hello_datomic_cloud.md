@@ -194,6 +194,24 @@ First lets add the seed data insude `novus` directory
 
 ```
 
+In order to ensure that we have resources available in our classpath, lets add it to the `:paths` deps.edn
+
+```
+{:paths ["src/main" "src/resources"]
+ :deps    {org.clojure/clojure {:mvn/version "1.10.3"}
+           ring/ring           {:mvn/version "1.9.4"}
+           ;; Dependency Management
+           integrant/integrant {:mvn/version "0.8.0"}
+           ;; Routing
+           metosin/reitit {:mvn/version "0.5.15"}}
+ :aliases {:dev {:extra-paths ["src/dev"]
+                 :extra-deps {nrepl/nrepl {:mvn/version "0.6.0"}
+                              integrant/repl {:mvn/version "0.3.2"}
+                              com.datomic/dev-local {:mvn/version "1.0.242"}}
+                 :main-opts ["-m" "nrepl.cmdline"]}}}
+
+```
+
 With our seed in place, we are now ready to transact mock data
 ```clj
 (def mock-data (-> "src/resources/seed.edn" slurp edn/read-string))
