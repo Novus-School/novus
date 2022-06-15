@@ -32,8 +32,10 @@ Any interaction that causes a data change request is sent to the Clojure based r
 
 ## Why Immutable Stack?
 
-- Interactive Experience
-- No More Data Loss
+- Interactive Development Experience via REPL
+- No More Data Loss (Immutable Database)
+- Inspect historical databases
+- "Antifragile" by design
 - Cloud First Design
 - Simpler systems
 

@@ -37,7 +37,7 @@ Let’s get it set up and see what it can do for us:
 
 ### Step 3: Add default handler
 
-```
+```clj
 (defn routes
   [env]
   (ring/ring-handler
@@ -232,6 +232,8 @@ Now if we restart the server, we should see list of students reading from the da
 
 ## Coercion
 
+Next, let’s add a data-spec for the parameters passed to `GET` `/students/:studentId`
+
 Finally lets look at coercion. Lets implement an enpoint where we fetch student by ID.
 
 First lets add the route
@@ -250,10 +252,11 @@ First lets add the route
    ["/:studentId"
     {:get {:handler student/fetch
            :responses {201 {:body {:student map?}}}
-           :parameters {:path {:studentId uuid?}}
+           :parameters {:path {:studentId uuid?}} ;; Data Spec for Request path parameters
            :summary "Fetch list of students"}}]])
 
 ```
+
 
 Notice that we have added `:parameters` property. It says that the `:studentId` parameter should be a UUID
 

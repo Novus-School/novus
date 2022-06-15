@@ -1,3 +1,5 @@
+Immutable Stack: Build and Deploy a Full Stack Datomic, Clojure/Script and Reagent App
+
 # Introduction
 
 > “A complex system, contrary to what people believe, does not require complicated systems and regulations and intricate policies. The simpler, the better. Complications lead to multiplicative chains of unanticipated effects. Because of opacity, an intervention leads to unforeseen consequences, followed by apologies about the “unforeseen” aspect of the consequences, then to another intervention to correct the secondary effects, leading to an explosive series of branching “unforeseen” responses, each one worse than the preceding one.
@@ -48,9 +50,9 @@ SQL relational databases are the #1 choice for startup companies as well as ente
 1. you lose querying power
 2. you lost ACID transactions capability
 
-So even if you do manage to horizontally scale, you are still losing some of the database capabilities.
+So even if you do manage to horizontally scale, you have to drastically change your data model, which costs engineering cost
 
-Market answer to scalability problem was noSQL. But noSQL only solves one problem in my opinion - they solve the problem of distributed storage and solves many of the scalability problems posted by relational database - but noSQL databases are lacks the following features: expressive query capabilities of sql, strong consistency and ACID semantics
+Market answer to scalability problem was noSQL databases. But noSQL only solves one problem in my opinion - they solve the problem of distributed storage and solves many of the scalability problems posted by relational database - but noSQL databases are lacks the following features: expressive query capabilities of sql, strong consistency and ACID semantics
 
 Rich believes that SQL databases add complexity at a System Scale - traditional relational databases are monolith systems with way too much responsibility: reading, transaction and storage - his answer - Datomic - a distributed database - which delegates reading, transaction and storage into its own processes.
 
