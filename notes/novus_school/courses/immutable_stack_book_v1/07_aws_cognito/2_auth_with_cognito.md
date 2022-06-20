@@ -1,5 +1,7 @@
 # Cognito Authentication For Datomic Cloud Apps
 
+This tutorial is inspired from this [tutorial](http://www.jarrodctaylor.com/posts/Cognito-Authentication-For-Datomic-Cloud/)
+
 Operation Prerequisites
 
 - Terraform installed
@@ -397,3 +399,14 @@ Okay one the deployment is complete. Its time to test our route. And if you test
 In this lesson you learned how to use Cognito Authentication in your Datomic Ion Apps. You learned the basics of terraform to create aws resources. You learned how to create AWS Cognito User Pool, User Pool Client as well as AWS API Gateway Resources i.e Routes and Authorizors
 
 Finally you added auth routes to your app and as well as a middleware that extracts users email and username.
+
+### Resources
+
+1. https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html
+2. https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-routes.html
+3. https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource
+4. https://www.terraform.io/language/resources/provisioners/local-exec
+5. https://www.terraform.io/language/resources/provisioners/null_resource
+6. https://github.com/JarrodCTaylor/ion-cognito-exemplar
+7. https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-authorizer.html
+8. https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigatewayv2-route.html
