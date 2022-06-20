@@ -5,10 +5,21 @@
             [ring.util.response :as rr]))
             ; [datomic.client.api :as d]))
 
+(defonce req-atom (atom nil))
+
+(comment
+  @req-atom)
+
 (defn create-account!
   [{:keys [env claims] :as _request}]
+  (reset! req-atom _request)
   (let [{:keys [sub name picture]} claims]))
+
     ;; FIXME: transact-account
+
+
+(comment
+  (auth0/get-management-token {:client-secret "LvDQVdJJ7ksFbCQIy692O2Y6dBAlBqRsq3O3_p53iD9WRGkamHQ6ZOzOZL9BYiOp"}))
 
 (defn update-account!
   [{:keys [env claims] :as _request}]

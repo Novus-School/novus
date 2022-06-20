@@ -1,0 +1,9 @@
+{
+    "UserPoolId": "<AWS_COGNITO_USER_POOL_ID>",
+    "ClientId": "<AWS_COGNITO_USER_POOL_CLIENT_ID>",
+    "AuthFlow": "ADMIN_NO_SRP_AUTH",
+    "AuthParameters": {
+        "USERNAME": "exemplarUser",
+        "PASSWORD": "Password1-"
+    }
+}

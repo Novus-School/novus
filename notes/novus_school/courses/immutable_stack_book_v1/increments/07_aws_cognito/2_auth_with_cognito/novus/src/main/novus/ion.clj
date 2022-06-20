@@ -1,15 +1,11 @@
 (ns novus.ion
  (:require [integrant.core :as ig]
-           [novus.components.auth0 :as auth0]
            [novus.components.datomic-cloud :as datomic-cloud]
            [datomic.ion :as ion]
            [novus.server :as server]))
 
 (def integrant-setup
-  {::server/app {:datomic (ig/ref ::datomic-cloud/db)
-                 :auth0 (ig/ref ::auth0/auth)}
-   ::auth0/auth {:client-secret (get (ion/get-params {:path "/datomic-shared/prod/novus/"}) "auth0-client-secret")
-                 :client-id (get (ion/get-params {:path "/datomic-shared/prod/novus/"}) "auth0-client-id")}
+  {::server/app {:datomic (ig/ref ::datomic-cloud/db)}
    ::datomic-cloud/db {:server-type :ion
                        :region "us-east-1"
                        :system "app-prod"

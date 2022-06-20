@@ -1,8 +1,6 @@
 {:novus.components.jetty/server {:handler #ig/ref :novus.server/app
                                  :port 3000}
- :novus.server/app {:datomic #ig/ref :novus.components.datomic-dev-local/db
-                    :auth0 #ig/ref :novus.components.auth0/auth}
- :novus.components.auth0/auth {:client-secret "LvDQVdJJ7ksFbCQIy692O2Y6dBAlBqRsq3O3_p53iD9WRGkamHQ6ZOzOZL9BYiOp"}
+ :novus.server/app {:datomic #ig/ref :novus.components.datomic-dev-local/db}
  :novus.components.datomic-dev-local/db {:server-type :dev-local
                                          :system "dev"
                                          :db-name "novus"

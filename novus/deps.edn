@@ -8,6 +8,7 @@
   clj-http/clj-http {:mvn/version "3.12.3"}
   ovotech/ring-jwt {:mvn/version "2.2.1"}
   org.clojure/data.json {:mvn/version "2.4.0"}}
+  ; no.nsd/clj-jwt {:git/url "https://gitlab.nsd.no/clojure/clj-jwt.git" :git/sha "bc23acb3c7cbf0d2def2d395c3e3d9c405be28d5"}}
 
  :mvn/repos
  {"datomic-cloud" {:url "s3://datomic-releases-1fc2183a/maven/releases"}}

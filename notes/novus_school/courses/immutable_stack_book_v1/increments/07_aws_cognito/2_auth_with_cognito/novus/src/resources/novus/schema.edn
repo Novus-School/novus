@@ -1,0 +1,20 @@
+[{:db/ident :student/id
+  :db/doc "The id of the account"
+  :db/unique :db.unique/identity
+  :db/valueType :db.type/uuid
+  :db/cardinality :db.cardinality/one}
+
+ {:db/ident :student/first-name
+  :db/doc "The first name of the account"
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+
+ {:db/ident :student/last-name
+  :db/doc "The last name of the account"
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+
+ {:db/ident :student/school
+  :db/doc "School of the student"
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one}]

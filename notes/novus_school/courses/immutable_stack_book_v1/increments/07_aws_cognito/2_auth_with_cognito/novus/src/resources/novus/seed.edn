@@ -1,0 +1,9 @@
+[; 1. student attributes
+ {:db/id "student-1"
+  :student/id #uuid "0515a5fa-f177-44f0-8144-d6bdcc403564"
+  :student/first-name "Lynn"
+  :student/last-name "Margulis"}
+ {:db/id "student-2"
+  :student/id #uuid "1c1bae77-13fa-4cd1-b595-6c86fdd55946"
+  :student/first-name "Galileo"
+  :student/last-name "Galilei"}]
