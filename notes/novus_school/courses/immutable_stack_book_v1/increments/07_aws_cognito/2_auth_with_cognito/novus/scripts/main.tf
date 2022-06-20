@@ -1,27 +1,29 @@
+# Tutorial: https://learn.hashicorp.com/tutorials/terraform/aws-build?in=terraform/aws-get-started
+
 ###########
-# Variables
+# 1. Variables
 ###########
 variable "aws_region" {
   type = string
 }
 variable "gateway_id" {
-  type = string
+  type        = string
   description = "Physical ID of the `HttpDirectApiGateway`. Found in Cloudformation Outputs tab of Compute Stack"
 }
 variable "lb_integration" {
-  type = string
+  type        = string
   description = "Physical ID of the `HttpDirectApiIntegration` found in Cloudformation Outputs tab of Compute Stack"
 }
 
 ###########
-# Provider
+# 2. Provider
 ###########
 provider "aws" {
   region = var.aws_region
 }
 
 ###########
-# Cognito Resources
+# 3. Cognito Resources
 ###########
 
 # =========
@@ -35,7 +37,7 @@ resource "aws_cognito_user_pool" "pool" {
     require_numbers   = true
     require_symbols   = false
   }
-  schema  {
+  schema {
     attribute_data_type = "String"
     name                = "email"
     required            = true
@@ -43,7 +45,7 @@ resource "aws_cognito_user_pool" "pool" {
   mfa_configuration        = "OFF"
   auto_verified_attributes = ["email"]
   alias_attributes         = ["email"]
-  username_configuration  {
+  username_configuration {
     case_sensitive = false
   }
 }
@@ -51,14 +53,14 @@ resource "aws_cognito_user_pool" "pool" {
 # =========
 # The Cognito client will be the bridge between the gateway and the user pool
 resource "aws_cognito_user_pool_client" "pool_client" {
-  name                = "ion-example-user-pool-client"
-  user_pool_id        = aws_cognito_user_pool.pool.id
-  generate_secret     = false
+  name            = "ion-example-user-pool-client"
+  user_pool_id    = aws_cognito_user_pool.pool.id
+  generate_secret = false
   explicit_auth_flows = ["ALLOW_ADMIN_USER_PASSWORD_AUTH",
-                         "ALLOW_CUSTOM_AUTH",
-                         "ALLOW_USER_PASSWORD_AUTH",
-                         "ALLOW_USER_SRP_AUTH",
-                         "ALLOW_REFRESH_TOKEN_AUTH"]
+    "ALLOW_CUSTOM_AUTH",
+    "ALLOW_USER_PASSWORD_AUTH",
+    "ALLOW_USER_SRP_AUTH",
+  "ALLOW_REFRESH_TOKEN_AUTH"]
 }
 
 # =========
@@ -81,7 +83,7 @@ resource "null_resource" "cognito_user" {
 }
 
 ###########
-# API-Gateway Resources
+# 5. API-Gateway Resources
 ###########
 
 # =========
@@ -110,22 +112,22 @@ resource "aws_apigatewayv2_authorizer" "gw_auth" {
 # Creating the authenticated ANY route with the appropriate load balancer integration
 # and the above created authorizer
 resource "aws_apigatewayv2_route" "authed" {
-  api_id = var.gateway_id
-  route_key = "ANY /api/v1/authed/{proxy+}"
-  target = "integrations/${var.lb_integration}"
+  api_id             = var.gateway_id
+  route_key          = "ANY /api/v1/authed/{proxy+}"
+  target             = "integrations/${var.lb_integration}"
   authorization_type = "JWT"
-  authorizer_id = aws_apigatewayv2_authorizer.gw_auth.id
+  authorizer_id      = aws_apigatewayv2_authorizer.gw_auth.id
 }
 
 # =========
 # Creating a catch all OPTIONS route. (Only required for request from a browser)
 resource "aws_apigatewayv2_route" "cors" {
-  api_id = var.gateway_id
+  api_id    = var.gateway_id
   route_key = "OPTIONS /{proxy+}"
 }
 
 ###########
-# Outputs
+# 6. Outputs (optional)
 ###########
 output "user_pool" {
   value = aws_cognito_user_pool.pool.id
