@@ -3,16 +3,14 @@ Immutable Stack: Build and Deploy a Full Stack Datomic, Clojure/Script and Reage
 # Introduction
 
 > “A complex system, contrary to what people believe, does not require complicated systems and regulations and intricate policies. The simpler, the better. Complications lead to multiplicative chains of unanticipated effects. Because of opacity, an intervention leads to unforeseen consequences, followed by apologies about the “unforeseen” aspect of the consequences, then to another intervention to correct the secondary effects, leading to an explosive series of branching “unforeseen” responses, each one worse than the preceding one.
-Yet simplicity has been difficult to implement in modern life because it is against the spirit of a certain brand of people who seek sophistication so they can justify their profession.
-Less is more and usually more effective. Thus I will produce a small number of tricks, directives, and interdicts—how to live in a world we don’t understand, or, rather, how to not be afraid to work with things we patently don’t understand, and, more principally, in what manner we should work with these. Or, even better, how to dare to look our ignorance in the face and not be ashamed of being human—be aggressively and proudly human. But that may require some structural changes.” - Antifragile, Things That Gain From Disorder
-
+> Yet simplicity has been difficult to implement in modern life because it is against the spirit of a certain brand of people who seek sophistication so they can justify their profession.
+> Less is more and usually more effective. Thus I will produce a small number of tricks, directives, and interdicts—how to live in a world we don’t understand, or, rather, how to not be afraid to work with things we patently don’t understand, and, more principally, in what manner we should work with these. Or, even better, how to dare to look our ignorance in the face and not be ashamed of being human—be aggressively and proudly human. But that may require some structural changes.” - Antifragile, Things That Gain From Disorder
 
 The main objective of this book is this: to give you a different point of view, when it comes to building web applications aka this book is about building simpler distributed systems.
 
 Software development has never been this complex, ever and it's only going to get worse. JavaScript is the de facto programming language for the web, and PERN (Postgres, Express, React, Node) stack is probably one of the most popular stack choices for most startups (or at least that was in my case).
 
 In this book I want to Introduce CARD Stack aka Immutable Stack. CARD stands for Clojure/Script AWS, Reagent and Datomic Cloud. Immutable Stack is probably the most powerful stack there is currently - some of the benefits of using Immutable Stack is out of the box auditing, simpler data model, powerful query engine
-
 
 ## Who is this book for
 
@@ -40,7 +38,6 @@ Rich worked as a C++/Java developer for 20+ years. He had seen what complexity w
 
 So he took two year sabbatical and two years later, Clojure was his answer. It had everything he needed to write simpler systems - persistent immutable data structures, modern lisp, designed to leverage concurrency, interactive development experience, hosted etc.
 
-
 Clojure was his answer to functional level complexity, but what about system level.
 
 ## Complexity at a System Scale
@@ -66,13 +63,11 @@ According to google
 
 To avoid such costly attacks, you are then taught about Parametrized queries. Parameterized queries force the developer to first define all the SQL code, and then pass in each parameter to the query later. This coding style allows the database to distinguish between code and data, regardless of what user input is supplied.
 
-
 Okay lets read the last sentence again:
 
 This coding style allows the database to distinguish between code and data, regardless of what user input is supplied.
 
 Wait a second, if SQL query language was only defined in data and not in string, we would have NEVER had such problem but yet here we are using such ancient tool to build the future...
-
 
 Luckily we don't see such problems in Datomic, since its everything data - queries are data, transactions are reified, schema is data
 
@@ -81,7 +76,6 @@ Luckily we don't see such problems in Datomic, since its everything data - queri
 1. Complexity - what it is and how to tame it
 2. Thinking in Data, the Clojure way
 3. Learn Immutable Stack will help you write much simpler software
-
 
 ## Technical Skills you will gain after reading this book
 
@@ -94,7 +88,8 @@ Luckily we don't see such problems in Datomic, since its everything data - queri
 - Structured code editing
 - Functional programming
 
-2. Server-side with Clojure
+2. Server-side Programming with Clojure
+
 - Configuration.
 - Integrant
 - HTTP
@@ -104,8 +99,8 @@ Luckily we don't see such problems in Datomic, since its everything data - queri
 - Auth
 - AWS
 
+3. Client-side Programming with ClojureScript:
 
-3. Client-side with ClojureScript:
 - ClojureScript
 - TypeScript
 - shadow-cljs
@@ -115,6 +110,7 @@ Luckily we don't see such problems in Datomic, since its everything data - queri
 - SPA's
 
 4. Datomic Cloud - coding, architecture, and tech ops
+
 - Datomic's shape: eavt - see my talk on this.
 - Modelling domain data.
 - Data as connector between services, thanks to "strong time".
@@ -128,19 +124,53 @@ Luckily we don't see such problems in Datomic, since its everything data - queri
 - development vs production concerns
 
 5. Spec
+
 - Modelling.
 - Generating data.
 - Using data with spec.
 
-
 6. Testing
+
 - Example-based.
 - Generative.
 - Simulation.
 
-
 7. Builds & Deployments
+
 - Split Stack
 - Datomic Ions
 - Datomic CLI tools
 - Deploying packaged code using Datomic Ions
+- Deploying resources using `terraform`
+
+8. Applied AWS: Interactive, Data Driven
+
+You will gain a fundamental understanding of what AWS and the all the leverage it provides, and most importantly you will learn how to use and leverage it.
+
+You will learn the following:
+
+IaC
+
+- CloudFormation
+  - Learn the fundamentals of cloudformation
+  - Create and destroy cloudformation stack
+
+Routing ===
+
+- API Gateway
+
+Storage ===
+
+- DynamoDB
+- EFS
+- S3
+
+Compute ===
+
+- EC2
+
+Auth ===
+
+- Cognito
+
+9. Authentication with AWS Cognito
