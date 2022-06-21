@@ -6,10 +6,7 @@
 
 [Music]
 
-Good morning it's really exciting to be here  
-I had a good day yesterday and hope all of you had too
-
-thank you to all the nubankers that made this event happen
+Good morning it's really exciting to be here. I had a good day yesterday and hope all of you had too. Thank you to all the nubankers that made this event happen.
 
 I have to admit I had nothing to do with it. I didn't lift a finger and it just happened with lots of courage and we're learning how to do this
 
