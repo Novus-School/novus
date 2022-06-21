@@ -17,10 +17,6 @@
     :access_token))
 
 
-(comment
-    (get-management-token {:client-secret "LvDQVdJJ7ksFbCQIy692O2Y6dBAlBqRsq3O3_p53iD9WRGkamHQ6ZOzOZL9BYiOp"}))
-
-
 (defn get-role-id
   [token]
   (->> {:headers {"Authorization" (str "Bearer " token)}
