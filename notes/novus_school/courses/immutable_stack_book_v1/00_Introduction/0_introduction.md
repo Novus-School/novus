@@ -5,7 +5,7 @@
 > Yet simplicity has been difficult to implement in modern life because it is against the spirit of a certain brand of people who seek sophistication so they can justify their profession.
 > Less is more and usually more effective. Thus I will produce a small number of tricks, directives, and interdicts—how to live in a world we don’t understand, or, rather, how to not be afraid to work with things we patently don’t understand, and, more principally, in what manner we should work with these. Or, even better, how to dare to look our ignorance in the face and not be ashamed of being human—be aggressively and proudly human. But that may require some structural changes.” - Antifragile, Things That Gain From Disorder
 
-The main objective of this book is this: to give you a different point of view, when it comes to building web applications aka this book is about building simpler distributed systems.
+The main objective of this book is this: **to give you a different point of view, when it comes to building web applications aka this book is about building simpler distributed systems.**
 
 Software development has never been this complex, ever and it's only going to get worse. JavaScript is the de facto programming language for the web, and PERN (Postgres, Express, React, Node) stack is probably one of the most popular stack choices for most startups (or at least that was in my case).
 
