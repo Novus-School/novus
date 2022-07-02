@@ -1,0 +1,28 @@
+[; 1. Organization
+ {:db/ident :organization/id
+  :db/doc "The id of the organization"
+  :db/unique :db.unique/identity
+  :db/valueType :db.type/uuid
+  :db/cardinality :db.cardinality/one}
+
+ {:db/ident :organization/display-name
+  :db/doc "Display Name of the organization"
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+
+ {:db/ident :student/last-name
+  :db/doc "The last name of the account"
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+
+ ;; 2. User
+ {:db/ident :user/id
+  :db/doc "The id of the user"
+  :db/unique :db.unique/identity
+  :db/valueType :db.type/uuid
+  :db/cardinality :db.cardinality/one}
+
+ {:db/ident :user/email
+  :db/doc "Email of the user"
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}]

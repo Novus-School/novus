@@ -1,0 +1,9 @@
+{:griffin.components.jetty/server {:handler #ig/ref :griffin.server/app
+                                   :port 8080}
+ :griffin.server/app {:datomic #ig/ref :griffin.components.datomic-dev-local/db
+                      :auth0 #ig/ref :griffin.components.auth0/auth}
+ :griffin.components.auth0/auth {:client-secret "test"}
+ :griffin.components.datomic-dev-local/db {:server-type :dev-local
+                                           :system "dev"
+                                           :db-name "griffin"
+                                           :storage-dir :mem}}
