@@ -1,4 +1,3 @@
-**Immutable Stack: Build and Deploy a Full Stack Datomic, Clojure/Script and Reagent App**
 
 # Introduction
 
